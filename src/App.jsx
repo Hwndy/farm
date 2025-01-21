@@ -15,7 +15,7 @@ import BuyerNavbar from "./components/Navbar/Buyer-Navbar";
 import FarmerNavbar from "./components/Navbar/Farmer-Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
-import Faq from "./pages/faq";
+import Faq from "./pages/Faq";
 import Contact from "./pages/Contact";
 import Store from "./pages/Store"
 import About from "./pages/About";
