@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
 import axios from "axios";
-import debounce from 'lodash/debounce'
+import{debounce} from 'lodash'
 import { useAuth } from "../../context/AuthContext";
 import { VscAccount } from "react-icons/vsc";
 
@@ -15,7 +15,7 @@ const SearchInput = styled.input`
   width: 100%;
   padding: 0.5rem;
   border: 1px solid #bbf7d0;
-  border-radius: 0.375rem;
+  border-radius: 0.37rem;
   outline: none;
 
   font-size: 12px;

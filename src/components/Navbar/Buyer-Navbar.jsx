@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
 import axios from "axios";
-import debounce from 'lodash/debounce'
+import {debounce} from "lodash/debounce";
 import { useAuth } from "../../context/AuthContext";
 import { VscAccount } from "react-icons/vsc";
 
@@ -278,7 +278,7 @@ const MobileMenu = styled.div`
   background-color: #f0fdf4;
   padding-bottom: 1rem;
 
-  @media (min-width: 770px) {
+  @media (min-width:770px) {
     display: none;
   }
 `;
@@ -299,10 +299,21 @@ const MobileMenuLink = styled(Link)`
 const Account = styled(VscAccount)`
   font-size: 20px;
 `
+const RightSide = styled.div`
+  display: none;
+  @media (max-width: 770px) {
+    width: fit-content;
+    gap: 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+`
+
 const CartLinkTwo = styled(Link)`
   display: none;
 
-  @media (max-width: 770px) {
+  @media (max-width:770px) {
     position: relative;
     color: #15803d;
 
@@ -388,19 +399,8 @@ const SearchDropdownTwo = styled.div`
     }
   }
 
-  @media (min-width: 770px) {
+  @media (min-width:770px) {
       display: none;
-  }
-`
-
-const RightSide = styled.div`
-  display: none;
-  @media (max-width: 770px) {
-    width: fit-content;
-    gap: 22px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
   }
 `
 
@@ -588,6 +588,9 @@ export default function AdminNavbar () {
               <DropdownItem onClick={() => goToPage('profile')}>
                 My Profile
               </DropdownItem>
+              <DropdownItem onClick={() => goToPage('farmer-dashboard')}>
+                My Dashboard
+              </DropdownItem>
               <DropdownItem onClick={() => goToPage('')}>
                 My Orders
               </DropdownItem>
@@ -652,9 +655,11 @@ export default function AdminNavbar () {
         <MobileMenu>
           <MobileMenuLink to="/">Home</MobileMenuLink>
           <MobileMenuLink to="">My Profile</MobileMenuLink>
+          <MobileMenuLink to="/Dashboard">Dashboard</MobileMenuLink>
+
           <MobileMenuLink to="/buyer-store">Store</MobileMenuLink>
           <MobileMenuLink to="">My Orders</MobileMenuLink>
-          <MobileMenuLink to="/help/faq">FAQ</MobileMenuLink>
+
           <MobileMenuLink onClick={handleSignOut}>Sign Out</MobileMenuLink>
         </MobileMenu>
       )}
