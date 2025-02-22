@@ -441,7 +441,6 @@ const Categories = styled.div`
 
 const FeaturedProductsSection = styled.div`
   background-color: #f9fafb;
-  /* padding: 4rem 0; */
   max-width: 1200px;
   margin: 0px auto;
   
