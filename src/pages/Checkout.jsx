@@ -6,6 +6,7 @@ import axios from 'axios';
 import { PaystackButton } from 'react-paystack';
 import { validateAddress } from '../utils/Validation';
 import ErrorBoundary from '../utils/ErrorBoundary';
+import { GiMailShirt } from 'react-icons/gi';
 
 const Checkout = () => {
   const [userEmail, setUserEmail] = useState('');
@@ -32,7 +33,7 @@ const Checkout = () => {
       const fetchUserProfile = async () => {
           try {
               const response = await axios.get(
-                 'http://localhost:5000/api/v1/user/profile/get/SignedinUserProfile',
+                 'https://farmera-eyu3.onrender.com/api/v1/user/profile/get/SignedinUserProfile',
                   {
                       headers: {
                           Authorization: `Bearer ${token}`,
@@ -54,7 +55,7 @@ const Checkout = () => {
     const fetchCartDetails = async () => {
         try {
             const response = await axios.get(
-                'http://localhost:5000/api/v1/cart/user',
+                'https://farmera-eyu3.onrender.com/api/v1/cart/user',
                 {
                   headers: {
                     Authorization: `Bearer ${token}`,
@@ -74,14 +75,13 @@ const Checkout = () => {
     fetchCartDetails();
 }, [token]);
 
-  // const cost = 300
-
-  const config = {
-    reference: (new Date()).getTime().toString(),
-    email: userEmail,
-    amount: price * 100,
-    publicKey: 'pk_test_b5202d3d874ecb280c84d15f6ff56c905bd2442e',
-  };
+const paystackConfig = {
+  reference: (new Date()).getTime().toString(),
+  email: userEmail,
+  price: price,
+  amount: price * 100,
+  publicKey: import.meta.env.VITE_PAYSTACK_PUBLIC_KEY,
+};
 
   const pickupStations = [
     {
@@ -111,17 +111,14 @@ const Checkout = () => {
   ];
 
   const handleError = (error, errorType) => {
-    const errorMessage = error.response?.data?.message || 
-                        error.response?.data?.error || 
-                        error.message || 
-                        'An unexpected error occurred';
+    const errorMessage = error.response?.data?.message || error.response?.data?.error || error.message || 'An unexpected error occurred';
 
     setErrors(prev => ({
       ...prev,
       [errorType]: errorMessage
     }));
 
-    // Auto-clear error after 5 seconds
+
     setTimeout(() => {
       setErrors(prev => ({
         ...prev,
@@ -147,47 +144,6 @@ const Checkout = () => {
 
     loadInitialData();
   }, [token]);
-
-  const fetchUserProfile = async () => {
-    try {
-      setLoading(true);
-      const response = await axios.get('http://localhost:5000/api/v1/user/profile/get/SignedinUserProfile', {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setUserEmail(response.data.email);
-    } catch (err) {
-      handleError(err, 'profile');
-      throw err;
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const fetchCartDetails = async () => {
-    try {
-      setLoading(true);
-      const response = await axios.get(
-        'http://localhost:5000/api/v1/cart/user',
-        {
-          headers: { Authorization: `Bearer ${token}` }
-        }
-      );
-      setPrice(response.data.totalBill);
-    } catch (error) {
-      handleError(error, 'cart');
-      throw error;
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const paystackConfig = {
-    reference: (new Date()).getTime().toString(),
-    email: userEmail,
-    // amount: price * 100,
-    amount: 500,
-    publicKey: 'pk_test_b5202d3d874ecb280c84d15f6ff56c905bd2442e',
-  };
 
   const handleAddressSubmit = () => {
     if (!validateDeliveryDetails()) {

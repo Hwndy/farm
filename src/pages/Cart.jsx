@@ -37,6 +37,7 @@ const Cart = () => {
       });
     }
   };
+  
 
   return (
     <CartContainer>
@@ -48,7 +49,7 @@ const Cart = () => {
       <CartGrid>
         <CartItems>
           {cart.cartItems?.map((item) => (
-            item.product ? (  // Check if product exists
+            item.product ? (  
               <CartItem key={item.product._id}>
                 <ProductImage 
                 src={Array.isArray(item.product?.images) && item.product?.images.length > 0 

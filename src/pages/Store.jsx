@@ -12,8 +12,8 @@ const Store = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [showProductModal, setShowProductModal] = useState(false);
+  // const [selectedProduct, setSelectedProduct] = useState(null);
+  // const [showProductModal, setShowProductModal] = useState(false);
   const [pagination, setPagination] = useState({ currentPage: 1, totalPages: 1 });
   const [filters, setFilters] = useState({
     category: "",
@@ -65,30 +65,30 @@ const Store = () => {
       });
   }, []);
 
-  const fetchProductDetails = async (id) => {
-    setLoading(true);
-    try {
-      const response = await axios.get(
-        `https://farmera-eyu3.onrender.com/api/v1/product/get/${id}`
-      );
-      setSelectedProduct(response.data); // Set the product details
-      setShowProductModal(true); // Show the modal
-    } catch (error) {
-      console.error("Error fetching product details:", error.response?.data || error.message);
-      setError("Failed to fetch product details.");
-    } finally {
-      setLoading(false);
-    }
-  };
+  // const fetchProductDetails = async (id) => {
+  //   setLoading(true);
+  //   try {
+  //     const response = await axios.get(
+  //       `https://farmera-eyu3.onrender.com/api/v1/product/get/${id}`
+  //     );
+  //     setSelectedProduct(response.data); 
+  //     setShowProductModal(true); 
+  //   } catch (error) {
+  //     console.error("Error fetching product details:", error.response?.data || error.message);
+  //     setError("Failed to fetch product details.");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
-  const handleProductClick = (id) => {
-    fetchProductDetails(id);
-  };
+  // const handleProductClick = (id) => {
+  //   fetchProductDetails(id);
+  // };
 
-  const closeProductModal = () => {
-    setShowProductModal(false);
-    setSelectedProduct(null);
-  };
+  // const closeProductModal = () => {
+  //   setShowProductModal(false);
+  //   setSelectedProduct(null);
+  // };
 
   const handleCategoryClick = (categoryName) => {
     setSelectedCategory(categoryName);
@@ -187,7 +187,7 @@ const Store = () => {
                 {categories.map((category) => (
                   <Categories
                     key={category._id}  className={`category ${selectedCategory === category.name ? 'focused' : ''}`} onClick={() => handleCategoryClick(category.name)}>
-                    <h5>{category.name}</h5>
+                    {category.name}
                   </Categories>
                 ))}
               </CategoriesDiv>
@@ -207,7 +207,7 @@ const Store = () => {
             products.map((product) => (
               <ProductCard key={product._id}>
                 <img src={product.images[0]} alt={product.imageIds[0]}/>
-                <div onClick={() => handleProductClick(product._id)}>
+                <div>
                   <h2>{product.name}</h2>
                   <p>{product.description}</p>
                   <p id="location">By {product.store} @ {product.location}</p>
@@ -220,7 +220,7 @@ const Store = () => {
           </ProductWrapper>
 
           {/* For Farouq */}
-
+{/* 
           {showProductModal && selectedProduct && (
           <ProductModal>
             <ModalContent>
@@ -231,7 +231,7 @@ const Store = () => {
               <h3>₦ {selectedProduct.price}</h3>
             </ModalContent>
           </ProductModal>
-          )}
+          )} */}
 
           {/* FOR FAROUQ */}
           {/* <button 
@@ -375,7 +375,7 @@ const FiltersContainer = styled.div`
 const CategoriesDiv = styled.div`
   /* margin-left: 60px; */
   margin: 0px auto;
-  margin-top: 10px;
+  margin-top: 30px;
   max-width: 1100px;
   display: flex;
   flex-wrap: wrap;
@@ -407,23 +407,37 @@ const FilterLabel = styled.label`
 `;
 
 const Categories = styled.div`
-  border: none;
+  border: 1px solid #16a34a;
   background-color: transparent;
   border-radius: 5px;
   padding: 10px;
   cursor: pointer;
-  .focused {
-  background-color: #cce7ff;
-  border-color: #0066cc;
-  transform: scale(1.1);
-  box-shadow: 0 0 5px 2px rgba(0, 102, 204, 0.4);
-  }
+  transition: all 0.3s ease;
 
   &:hover {
-    background-color: #16A34A;
-    border: 1px solid black;
+    color: white;
+    background-color: #16a34a;
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
-`
+
+  &:focus {
+    outline: none;
+    background-color: #16a34a;
+    transform: scale(1.05);
+    box-shadow: 0 0 5px 2px rgba(22, 163, 74, 0.5);
+    color: white;
+  }
+
+  &.focused {
+    background-color: #cce7ff;
+    border-color: #0066cc;
+    transform: scale(1.1);
+    box-shadow: 0 0 5px 2px rgba(0, 102, 204, 0.4);
+    color: #0066cc;
+  }
+`;
+
 
 const FeaturedProductsSection = styled.div`
   background-color: #f9fafb;
