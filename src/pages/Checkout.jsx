@@ -193,7 +193,7 @@ const paystackConfig = {
       };
 
       const response = await axios.post(
-        'http://localhost:5000/api/v1/order/add',
+        'https://farmera-eyu3.onrender.com/api/v1/order/add',
         orderData,
         {
           headers: { Authorization: `Bearer ${token}` }
@@ -201,7 +201,7 @@ const paystackConfig = {
       );
 
       navigate(`/order-success/${response.data.order._id}`, { 
-        state: { order: response.data } 
+        state: { order: response.data.order } 
       });
     } catch (error) {
       handleError(error, 'order');
