@@ -33,22 +33,22 @@ export const CartProvider = ({ children }) => {
         ? 'https://farmera-eyu3.onrender.com/api/v1/cart/user'
         : 'https://farmera-eyu3.onrender.com/api/v1/cart/guestUser';
 
-      console.log('Attempting to fetch from endpoint:', endpoint);
-      console.log('Current auth status:', { isAuthenticated, cartId });
+      // console.log('Attempting to fetch from endpoint:', endpoint);
+      // console.log('Current auth status:', { isAuthenticated, cartId });
       
       if (isAuthenticated) {
         if (!token) {
           console.log('Token not available yet, skipping fetch');
           return;
         }
-        console.log('Fetching authenticated cart with token:', token);
+        // console.log('Fetching authenticated cart with token:', token);
         headers.Authorization = `Bearer ${token}`;
       } else {
-        console.log('Fetching guest cart with cartId:', cartId);
+        // console.log('Fetching guest cart with cartId:', cartId);
         headers['x-cart-id'] = cartId;
       }
 
-      console.log('Request headers:', headers);
+      // console.log('Request headers:', headers);
  
       const response = await axios.get(endpoint, {
         headers,
@@ -56,7 +56,7 @@ export const CartProvider = ({ children }) => {
         timeout: 5000,
       });
      
-      console.log('Received cart data:', response.data);
+      // console.log('Received cart data:', response.data);
       setCart(response.data);
     } catch (error) {
       console.error('Detailed error information:', {

@@ -2,12 +2,26 @@ import axios from 'axios';
 
 const BASE_URL = 'https://farmera-eyu3.onrender.com/api/v1/order';
 
+const getAuthHeaders = () => {
+  const token = localStorage.getItem("token");
+  const headers = { 'Content-Type': 'application/json' };
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+  return headers;
+};
+
 const OrderContext = {
   createOrder: async (shippingAddress) => {
     try {
-      const response = await axios.post(`${BASE_URL}/add`, { shippingAddress }, {
-        withCredentials: true
-      });
+      const response = await axios.post(
+        `${BASE_URL}/add`,
+        { shippingAddress },
+        {
+          headers: getAuthHeaders(),
+          withCredentials: true,
+        }
+      );
       return response.data;
     } catch (error) {
       throw error.response?.data || { error: 'Failed to create order' };
@@ -17,7 +31,8 @@ const OrderContext = {
   getUserOrders: async () => {
     try {
       const response = await axios.get(`${BASE_URL}/user`, {
-        withCredentials: true
+        headers: getAuthHeaders(),
+        withCredentials: true,
       });
       return response.data;
     } catch (error) {
@@ -28,7 +43,8 @@ const OrderContext = {
   getOrderById: async (orderId) => {
     try {
       const response = await axios.get(`${BASE_URL}/get/${orderId}`, {
-        withCredentials: true
+        headers: getAuthHeaders(),
+        withCredentials: true,
       });
       return response.data;
     } catch (error) {
@@ -41,7 +57,10 @@ const OrderContext = {
       const response = await axios.post(
         `${BASE_URL}/${orderId}/productId/${orderedItemId}/return`,
         {},
-        { withCredentials: true }
+        {
+          headers: getAuthHeaders(),
+          withCredentials: true,
+        }
       );
       return response.data;
     } catch (error) {
@@ -54,13 +73,16 @@ const OrderContext = {
       const response = await axios.put(
         `${BASE_URL}/${orderId}/cancel`,
         {},
-        { withCredentials: true }
+        {
+          headers: getAuthHeaders(),
+          withCredentials: true,
+        }
       );
       return response.data;
     } catch (error) {
       throw error.response?.data || { error: 'Failed to cancel order' };
     }
-  }
+  },
 };
 
 export default OrderContext;

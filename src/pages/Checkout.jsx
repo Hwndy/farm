@@ -6,9 +6,12 @@ import axios from 'axios';
 import { PaystackButton } from 'react-paystack';
 import { validateAddress } from '../utils/Validation';
 import ErrorBoundary from '../utils/ErrorBoundary';
+// import {useCart} from `../context/CartContext`
 import { GiMailShirt } from 'react-icons/gi';
 
 const Checkout = () => {
+  const {fetchCart} = useCart;
+  
   const [userEmail, setUserEmail] = useState('');
   const [price, setPrice] = useState(null);
   const navigate = useNavigate();
@@ -200,6 +203,8 @@ const paystackConfig = {
         }
       );
 
+      fetchCart()
+
       navigate(`/order-success/${response.data.order._id}`, { 
         state: { order: response.data.order } 
       });
@@ -382,7 +387,6 @@ const paystackConfig = {
 
 export default Checkout
 
-// Styled Components
 const Container = styled.div`
   max-width: 800px;
   margin: 2rem auto;
