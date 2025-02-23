@@ -654,11 +654,11 @@ export default function AdminNavbar () {
       {isOpen && (
         <MobileMenu>
           <MobileMenuLink to="/">Home</MobileMenuLink>
-          <MobileMenuLink to="">My Profile</MobileMenuLink>
+          <MobileMenuLink to="/profile">My Profile</MobileMenuLink>
           <MobileMenuLink to="/Dashboard">Dashboard</MobileMenuLink>
 
           <MobileMenuLink to="/buyer-store">Store</MobileMenuLink>
-          <MobileMenuLink to="">My Orders</MobileMenuLink>
+          <MobileMenuLink to="/orders">My Orders</MobileMenuLink>
 
           <MobileMenuLink onClick={handleSignOut}>Sign Out</MobileMenuLink>
         </MobileMenu>
