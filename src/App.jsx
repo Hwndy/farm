@@ -34,6 +34,7 @@ import OrderSuccessPage from "./pages/OrderSuccessPage";
 
 // import ProductDetail from './pages/ProductDetail'
 import Profile from "./pages/Profile";
+import OrderPage from "./pages/OrderPage";
 
 
 export default function App() {
@@ -71,6 +72,7 @@ export default function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/checkout" element={<Checkout/>}/>
           {/* <Route path="/product/:id" element={<ProductDetail />} /> */}
+          <Route path="/orders" element={<OrderPage/>} />
           <Route path="/order-success/:orderId" element={<OrderSuccessPage />} />
           <Route path="/farmer-dashboard" element={
             
