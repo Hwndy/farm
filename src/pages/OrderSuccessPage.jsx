@@ -28,15 +28,15 @@ const OrderSuccessPage = () => {
             </DetailItem>
             <DetailItem>
               <Label>Payment Method:</Label>
-              <Value>{order.paymentMethod}</Value>
+              <Value>{order.paymentMethod || "Paystack"}</Value>
             </DetailItem>
             <DetailItem>
               <Label>Delivery Method:</Label>
               <Value>{order.deliveryMethod}</Value>
             </DetailItem>
             <DetailItem>
-              <Label>delivery Address:</Label>
-              <Value>{order.deliveryAddress}</Value>
+              <Label>Delivery Address:</Label>
+              <Value>{order.shippingAddress}</Value>
             </DetailItem>
           </DetailGrid>
         </OrderDetails>

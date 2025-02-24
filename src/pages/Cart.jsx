@@ -6,7 +6,7 @@ import { useAuth } from "../context/AuthContext";
 import { FaTrash, FaMinus, FaPlus } from 'react-icons/fa';
 
 const Cart = () => {
-  const { cart, loading, error, addToCart, decreaseQuantity, removeFromCart, clearCart } = useCart();
+  const { cart, loading, fetchCart, error, addToCart, decreaseQuantity, removeFromCart, clearCart } = useCart();
 
   const navigate = useNavigate();
   const { state: { isAuthenticated } } = useAuth();

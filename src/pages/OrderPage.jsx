@@ -18,9 +18,14 @@ const OrderPage = () => {
     try {
       setLoading(true);
       const response = await OrderContext.getUserOrders();
-      setOrders(response.orders);
+      setOrders(response?.orders || []);
     } catch (err) {
-      setError(err.error || 'Failed to fetch orders');
+      console.error('Error fetching orders:', err);
+      if (!err.response || err.response.status !== 200) {
+        setError(err.message || err.error || 'Failed to fetch orders');
+      } else {
+        setOrders([]);
+      }
     } finally {
       setLoading(false);
     }
@@ -83,7 +88,7 @@ const OrderPage = () => {
                   </OrderDate>
                 </OrderInfo>
                 <StatusBadge color={getStatusColor(order.status)}>
-                  {order.issent ? 'sent' : 
+                  {order.isShipped ? 'sent' : 
                    order.isCancelled ? 'Cancelled' : 
                    order.isReturned ? 'Returned' : 'Pending'}
                 </StatusBadge>
@@ -102,7 +107,7 @@ const OrderPage = () => {
                     {!order.isCancelled && !item.isReturned && (
                       <ReturnButton 
                         onClick={() => handleReturnProduct(order._id, item._id)}
-                        disabled={!order.issent}
+                        disabled={!order.isShipped}
                       >
                         Return Item
                       </ReturnButton>
@@ -113,7 +118,7 @@ const OrderPage = () => {
 
               <OrderFooter>
                 <TotalPrice>Total: ₦{order.totalPrice}</TotalPrice>
-                {!order.issent && !order.isCancelled && (
+                {!order.isShipped && !order.isCancelled && (
                   <CancelButton onClick={() => handleCancelOrder(order._id)}>
                     Cancel Order
                   </CancelButton>
@@ -121,7 +126,7 @@ const OrderPage = () => {
               </OrderFooter>
 
               <deliveryInfo>
-                <strong>delivery Address:</strong> {order.deliveryAddress}
+                <strong>delivery Address:</strong> {order.shippingAddress}
               </deliveryInfo>
             </OrderCard>
           ))}

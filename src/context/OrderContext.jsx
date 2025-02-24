@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://farmera-eyu3.onrender.com/api/v1/order';
+const BASE_URL = 'http://localhost:5000/api/v1/order';
 
 const getAuthHeaders = () => {
   const token = localStorage.getItem("token");
@@ -12,11 +12,11 @@ const getAuthHeaders = () => {
 };
 
 const OrderContext = {
-  createOrder: async (deliveryAddress) => {
+  createOrder: async (shippingAddress) => {
     try {
       const response = await axios.post(
         `${BASE_URL}/add`,
-        { deliveryAddress },
+        { shippingAddress },
         {
           headers: getAuthHeaders(),
           withCredentials: true,

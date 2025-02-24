@@ -16,7 +16,7 @@ const Checkout = () => {
   const { cart } = useCart();
   const [step, setStep] = useState(1);
   const [deliveryMethod, setDeliveryMethod] = useState('');
-  const [deliveryAddress, setdeliveryAddress] = useState('');
+  const [shippingAddress, setshippingAddress] = useState('');
   const [pickupStation, setPickupStation] = useState('');
   const [loading, setLoading] = useState(false);
   const [pageLoading, setPageLoading] = useState(true);
@@ -163,7 +163,7 @@ const paystackConfig = {
 
   const validateDeliveryDetails = () => {
     if (deliveryMethod === 'delivery') {
-      const validationResult = validateAddress(deliveryAddress);
+      const validationResult = validateAddress(shippingAddress);
       setErrors(prev => ({
         ...prev,
         validation: validationResult.errors
@@ -186,7 +186,7 @@ const paystackConfig = {
       
       const orderData = {
         deliveryMethod,
-        deliveryAddress: deliveryMethod === 'delivery' ? deliveryAddress : pickupStation,
+        shippingAddress: deliveryMethod === 'delivery' ? shippingAddress : pickupStation,
         paymentMethod: 'Paystack',
         isPaid: true,
         cartItems: cart.cartItems,
@@ -194,7 +194,7 @@ const paystackConfig = {
       };
 
       const response = await axios.post(
-        'https://farmera-eyu3.onrender.com/api/v1/order/add',
+        'http://localhost:5000/api/v1/order/add',
         orderData,
         {
           headers: { Authorization: `Bearer ${token}` }
@@ -232,7 +232,7 @@ const paystackConfig = {
         
         <SummaryTerm>Delivery Location:</SummaryTerm>
         <SummaryValue>
-          {deliveryMethod === 'delivery' ? deliveryAddress : pickupStation}
+          {deliveryMethod === 'delivery' ? shippingAddress : pickupStation}
         </SummaryValue>
         
         <SummaryTerm>Number of Items:</SummaryTerm>
@@ -314,9 +314,9 @@ const paystackConfig = {
               <AddressInput>
                 <label>delivery Address</label>
                 <textarea
-                  value={deliveryAddress}
+                  value={shippingAddress}
                   onChange={(e) => {
-                    setdeliveryAddress(e.target.value);
+                    setshippingAddress(e.target.value);
                     setErrors(prev => ({
                       ...prev,
                       validation: {}
