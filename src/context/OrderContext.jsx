@@ -12,11 +12,11 @@ const getAuthHeaders = () => {
 };
 
 const OrderContext = {
-  createOrder: async (shippingAddress) => {
+  createOrder: async (deliveryAddress) => {
     try {
       const response = await axios.post(
         `${BASE_URL}/add`,
-        { shippingAddress },
+        { deliveryAddress },
         {
           headers: getAuthHeaders(),
           withCredentials: true,

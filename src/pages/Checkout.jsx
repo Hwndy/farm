@@ -6,19 +6,17 @@ import axios from 'axios';
 import { PaystackButton } from 'react-paystack';
 import { validateAddress } from '../utils/Validation';
 import ErrorBoundary from '../utils/ErrorBoundary';
-// import {useCart} from `../context/CartContext`
 import { GiMailShirt } from 'react-icons/gi';
 
 const Checkout = () => {
-  const {fetchCart} = useCart;
-  
+
   const [userEmail, setUserEmail] = useState('');
   const [price, setPrice] = useState(null);
   const navigate = useNavigate();
   const { cart } = useCart();
   const [step, setStep] = useState(1);
   const [deliveryMethod, setDeliveryMethod] = useState('');
-  const [shippingAddress, setShippingAddress] = useState('');
+  const [deliveryAddress, setdeliveryAddress] = useState('');
   const [pickupStation, setPickupStation] = useState('');
   const [loading, setLoading] = useState(false);
   const [pageLoading, setPageLoading] = useState(true);
@@ -165,7 +163,7 @@ const paystackConfig = {
 
   const validateDeliveryDetails = () => {
     if (deliveryMethod === 'delivery') {
-      const validationResult = validateAddress(shippingAddress);
+      const validationResult = validateAddress(deliveryAddress);
       setErrors(prev => ({
         ...prev,
         validation: validationResult.errors
@@ -188,7 +186,7 @@ const paystackConfig = {
       
       const orderData = {
         deliveryMethod,
-        shippingAddress: deliveryMethod === 'delivery' ? shippingAddress : pickupStation,
+        deliveryAddress: deliveryMethod === 'delivery' ? deliveryAddress : pickupStation,
         paymentMethod: 'Paystack',
         isPaid: true,
         cartItems: cart.cartItems,
@@ -203,7 +201,7 @@ const paystackConfig = {
         }
       );
 
-      fetchCart()
+      // fetchCart()
 
       navigate(`/order-success/${response.data.order._id}`, { 
         state: { order: response.data.order } 
@@ -234,7 +232,7 @@ const paystackConfig = {
         
         <SummaryTerm>Delivery Location:</SummaryTerm>
         <SummaryValue>
-          {deliveryMethod === 'delivery' ? shippingAddress : pickupStation}
+          {deliveryMethod === 'delivery' ? deliveryAddress : pickupStation}
         </SummaryValue>
         
         <SummaryTerm>Number of Items:</SummaryTerm>
@@ -314,17 +312,17 @@ const paystackConfig = {
 
             {deliveryMethod === 'delivery' && (
               <AddressInput>
-                <label>Shipping Address</label>
+                <label>delivery Address</label>
                 <textarea
-                  value={shippingAddress}
+                  value={deliveryAddress}
                   onChange={(e) => {
-                    setShippingAddress(e.target.value);
+                    setdeliveryAddress(e.target.value);
                     setErrors(prev => ({
                       ...prev,
                       validation: {}
                     }));
                   }}
-                  placeholder="Enter your complete shipping address"
+                  placeholder="Enter your complete delivery address"
                   rows="3"
                 />
                 {Object.entries(errors.validation).map(([key, error]) => (

@@ -20,17 +20,17 @@ const Faq = () => {
       {
         id: 3,
         question: "How can I get started with Farmera?",
-        answer: "Yes, we ship to most countries worldwide. International shipping rates and delivery times vary by location. Please check our shipping calculator for specific rates to your country."
+        answer: "Yes, we ship to most countries worldwide. International delivery rates and delivery times vary by location. Please check our delivery calculator for specific rates to your country."
       },
       {
         id: 4,
         question: "How can I get started with Farmera?",
-        answer: "Yes, we ship to most countries worldwide. International shipping rates and delivery times vary by location. Please check our shipping calculator for specific rates to your country."
+        answer: "Yes, we ship to most countries worldwide. International delivery rates and delivery times vary by location. Please check our delivery calculator for specific rates to your country."
       },
       {
         id: 5,
         question: "How can I get started with Farmera?",
-        answer: "Yes, we ship to most countries worldwide. International shipping rates and delivery times vary by location. Please check our shipping calculator for specific rates to your country."
+        answer: "Yes, we ship to most countries worldwide. International delivery rates and delivery times vary by location. Please check our delivery calculator for specific rates to your country."
       }
     ];
 

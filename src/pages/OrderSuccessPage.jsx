@@ -35,8 +35,8 @@ const OrderSuccessPage = () => {
               <Value>{order.deliveryMethod}</Value>
             </DetailItem>
             <DetailItem>
-              <Label>Shipping Address:</Label>
-              <Value>{order.shippingAddress}</Value>
+              <Label>delivery Address:</Label>
+              <Value>{order.deliveryAddress}</Value>
             </DetailItem>
           </DetailGrid>
         </OrderDetails>

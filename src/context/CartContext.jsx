@@ -330,6 +330,7 @@ export const CartProvider = ({ children }) => {
       cart,
       loading,
       error,
+      fetchCart,
       addToCart,
       decreaseQuantity,
       removeFromCart,

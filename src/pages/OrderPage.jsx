@@ -47,7 +47,7 @@ const OrderPage = () => {
   const getStatusColor = (status) => {
     const statusColors = {
       pending: '#f1c40f',
-      shipped: '#3498db',
+      sent: '#3498db',
       delivered: '#2ecc71',
       cancelled: '#e74c3c',
       returned: '#95a5a6'
@@ -83,7 +83,7 @@ const OrderPage = () => {
                   </OrderDate>
                 </OrderInfo>
                 <StatusBadge color={getStatusColor(order.status)}>
-                  {order.isShipped ? 'Shipped' : 
+                  {order.issent ? 'sent' : 
                    order.isCancelled ? 'Cancelled' : 
                    order.isReturned ? 'Returned' : 'Pending'}
                 </StatusBadge>
@@ -102,7 +102,7 @@ const OrderPage = () => {
                     {!order.isCancelled && !item.isReturned && (
                       <ReturnButton 
                         onClick={() => handleReturnProduct(order._id, item._id)}
-                        disabled={!order.isShipped}
+                        disabled={!order.issent}
                       >
                         Return Item
                       </ReturnButton>
@@ -113,16 +113,16 @@ const OrderPage = () => {
 
               <OrderFooter>
                 <TotalPrice>Total: ₦{order.totalPrice}</TotalPrice>
-                {!order.isShipped && !order.isCancelled && (
+                {!order.issent && !order.isCancelled && (
                   <CancelButton onClick={() => handleCancelOrder(order._id)}>
                     Cancel Order
                   </CancelButton>
                 )}
               </OrderFooter>
 
-              <ShippingInfo>
-                <strong>Shipping Address:</strong> {order.shippingAddress}
-              </ShippingInfo>
+              <deliveryInfo>
+                <strong>delivery Address:</strong> {order.deliveryAddress}
+              </deliveryInfo>
             </OrderCard>
           ))}
         </OrdersList>
@@ -234,7 +234,7 @@ const TotalPrice = styled.span`
   color: #2c3e50;
 `;
 
-const ShippingInfo = styled.div`
+const deliveryInfo = styled.div`
   margin-top: 1rem;
   padding-top: 1rem;
   border-top: 1px solid #eee;
