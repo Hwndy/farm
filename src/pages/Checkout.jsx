@@ -76,12 +76,14 @@ const Checkout = () => {
     fetchCartDetails();
 }, [token]);
 
+const paystackKey = pk_test_b5202d3d874ecb280c84d15f6ff56c905bd2442e
+
 const paystackConfig = {
   reference: (new Date()).getTime().toString(),
   email: userEmail,
   price: price,
   amount: price * 100,
-  publicKey: import.meta.env.VITE_PAYSTACK_PUBLIC_KEY || pk_test_b5202d3d874ecb280c84d15f6ff56c905bd2442e
+  publicKey: import.meta.env.VITE_PAYSTACK_PUBLIC_KEY || paystackKey
 };
 
   const pickupStations = [
