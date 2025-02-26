@@ -5,7 +5,8 @@ import styled from "styled-components";
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
 import axios from "axios";
-import {debounce} from "lodash/debounce";
+// import {debounce} from "lodash/debounce";
+import { debounce } from 'lodash';
 import { useAuth } from "../../context/AuthContext";
 import { VscAccount } from "react-icons/vsc";
 

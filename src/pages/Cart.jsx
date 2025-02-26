@@ -12,8 +12,8 @@ const Cart = () => {
   const { state: { isAuthenticated } } = useAuth();
 
   if (loading) return <div style={{textAlign: "center"}}>Loading cart...</div>;
-  if (error) return <div style={{textAlign: "center"}}>Error: {error}</div>;
-  if (!cart || cart.cartItems.length === 0) {
+  if (error && !error.includes("cart not found")) return <div style={{textAlign: "center"}}>Error: {error}</div>;
+  if (!cart || cart.cartItems.length === 0 || (error && error.includes("Error: Cart not found"))) {
     return (
       <EmptyCartContainer>
         <h2>Your cart is empty</h2>
@@ -22,7 +22,6 @@ const Cart = () => {
         </Link>
       </EmptyCartContainer>
     );
-
   }
   
   const handleCheckout = () => {
