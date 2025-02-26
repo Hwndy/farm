@@ -9,6 +9,8 @@ const EmailVerification = () => {
   const navigate = useNavigate();
   const { userId, uniqueString } = useParams();
 
+  console.log(userId, uniqueString)
+
   useEffect(() => {
     const verifyEmail = async () => {
       try {

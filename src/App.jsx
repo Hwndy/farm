@@ -63,7 +63,7 @@ export default function App() {
           <Route path="/verify-email" element={<VerifyEmail/>}/>
           <Route path="/check-email" element={<CheckEmail/>}/>
           {/* <Route path="/verify/${userId}/${uniqueString}" element={<EmailVerification/>}/> */}
-          <Route path="/verify/:userId/:uniqueString" element={<EmailVerification/>}/>
+          <Route path="/auth/verify/:userId/:uniqueString" element={<EmailVerification/>}/>
           <Route path="/signin" element={<SignIn />} /> Sign-In Page
           <Route path="/forgotpassword" element={<ForgotPassword/>}/>
           <Route path="/signup" element={<CreateAccount />} />
