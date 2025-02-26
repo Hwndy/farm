@@ -81,7 +81,7 @@ const paystackConfig = {
   email: userEmail,
   price: price,
   amount: price * 100,
-  publicKey: import.meta.env.VITE_PAYSTACK_PUBLIC_KEY,
+  publicKey: import.meta.env.VITE_PAYSTACK_PUBLIC_KEY || pk_test_b5202d3d874ecb280c84d15f6ff56c905bd2442e
 };
 
   const pickupStations = [
