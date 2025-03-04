@@ -57,9 +57,6 @@ const CreateAccount = () => {
         setLoadInUser(true)
         setBuyerError(null)
 
-        // setBuyerDataList([...buyerDataList, buyerData])
-        // console.log([...buyerDataList, buyerData]);
-
         const newBuyerData = {
             ...buyerData,
             email: buyerData.email.toLowerCase(),
@@ -77,7 +74,12 @@ const CreateAccount = () => {
                 newBuyerData
             );
 
-            // console.log("SignupBuyer Successful:", signupBuyer.data);
+            localStorage.setItem('user', newBuyerData.email);
+
+            dispatch({
+                type: "SIGN_IN",
+                payload: signupBuyer.data
+            })
             
             navigate("/verify-email")
 
@@ -89,10 +91,7 @@ const CreateAccount = () => {
                 password: "",
             })
 
-            // setLoadInUser(false)
         } catch (err) {
-            // console.log("An error occured while signing buyer up", err.response);
-            
             if (err.response?.data?.error) {
                 setBuyerError(err.response?.data?.error)
             } else {
@@ -107,9 +106,6 @@ const CreateAccount = () => {
         e.preventDefault()
         setLoadInUser(true)
         setFarmerError(null)
-
-        // setFarmerDataList([...farmerDataList, farmerData])
-        // console.log([...farmerDataList, farmerData]);
 
         const newFarmerData = {
             ...farmerData,
@@ -127,15 +123,15 @@ const CreateAccount = () => {
             let signupFarmer = await axios.post("https://farmera-eyu3.onrender.com/api/v1/auth/signup/farmer", 
                 newFarmerData
             );
-            // console.log("SignupFarmer Successful:", signupFarmer.data);
-            
+
+            localStorage.setItem('user', newFarmerData.email);
+
             dispatch({
                 type: "SIGN_IN",
                 payload: signupFarmer.data
             })
 
             navigate("/verify-email")
-            // Navigate("/signin")
 
             setFarmerData({
                 firstname: "",
@@ -149,8 +145,6 @@ const CreateAccount = () => {
             })
 
         } catch (err) {
-            // console.log("An error ocurred while signing farmer up", err.response);
-
             if (err.response?.data?.error) {
                 setFarmerError(err.response?.data?.error)
             } else {

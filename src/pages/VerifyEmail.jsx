@@ -1,33 +1,68 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Mail } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const VerifyEmail = () => {
-  const openEmailClient = () => {
-    window.location.href = "mailto:";
+  const [otp, setOtp] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
+  const navigate = useNavigate();
+  const email = localStorage.getItem('user');
+
+  const handleVerify = async () => {  
+    setLoading(true);
+    setError('');
+    setMessage('');
+    try {
+      const response = await axios.post('http://localhost:5000/api/v1/auth/verify-otp', { 
+        email, 
+        otp 
+      });
+      setMessage(response.data.message);
+      setTimeout(() => navigate('/signin'), 2000);
+    } catch (err) {
+      setError(err.response?.data?.message || 'Something went wrong');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleResendOtp = async () => {
+    setLoading(true);
+    setError('');
+    try {
+      await axios.post('http://localhost:5000/api/v1/auth/resend-otp', { email });
+      setMessage('OTP resent successfully. Check your email.');
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to resend OTP');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <Container>
-      <Wrapper>
-        <Card>
-          <IconWrapper>
-            <Mail size={32} color="#16a34a" />
-          </IconWrapper>
-          <TextContent>
-            <h1>Check your email</h1>
-            <p>We've sent you a verification link to your email address</p>
-            <SubText>
-              Please click the link in the email to verify your account. If you don't see the email, check your spam folder.
-            </SubText>
-          </TextContent>
-          {/* <LinkWrapper>
-            <StyledButton onClick={openEmailClient}>
-              Open Email
-            </StyledButton>
-          </LinkWrapper> */}
-        </Card>
-      </Wrapper>
+      <Card>
+        <h1>Verify Your Email</h1>
+        <p>Enter the 6-digit OTP sent to your email</p>
+        <Input 
+          type="text" 
+          maxLength="6" 
+          value={otp} 
+          onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))}
+          placeholder="Enter OTP" 
+        />
+        {error && <ErrorMessage>{error}</ErrorMessage>}
+        {message && <SuccessMessage>{message}</SuccessMessage>}
+        <VerifyDiv>
+          <Button onClick={handleVerify} disabled={loading || otp.length !== 6}>
+            {loading ? 'Verifying...' : 'Verify'}
+          </Button>
+          <ResendLink onClick={handleResendOtp} disabled={loading}>Resend OTP</ResendLink>
+        </VerifyDiv>
+      </Card>
     </Container>
   );
 };
@@ -35,110 +70,70 @@ const VerifyEmail = () => {
 export default VerifyEmail;
 
 const Container = styled.div`
-  box-sizing: border-box;
-  background-color: #efefef;
-  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const Wrapper = styled.div`
-  box-sizing: border-box;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  max-width: 1350px;
-  padding: 0 20px;
+  background-color: #f9fafb;
 `;
 
 const Card = styled.div`
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: white;
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+`;
+
+const Input = styled.input`
   width: 100%;
-  max-width: 450px;
-  border-radius: 10px;
-  padding: 40px 20px;
-  margin: 0 auto;
-  @media (max-width: 480px) {
-    padding: 30px 15px;
-  }
-`;
-
-const IconWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #f0fdf4;
-  border-radius: 50%;
-  width: 64px;
-  height: 64px;
-  margin-bottom: 24px;
-`;
-
-const TextContent = styled.div`
+  padding: 10px;
+  margin-top: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
   text-align: center;
-  margin-bottom: 24px;
-  h1 {
-    font-size: 2rem;
-    font-weight: 800;
-    line-height: 1.4;
-    margin-bottom: 8px;
-    color: #111827;
-    @media (max-width: 768px) {
-      font-size: 1.8rem;
-      line-height: 1.3;
-    }
-    @media (max-width: 480px) {
-      font-size: 1.3rem;
-      line-height: 1.2;
-    }
-  }
-  p {
-    font-size: 1rem;
-    font-weight: 600;
-    line-height: 1.6;
-    color: rgb(97, 97, 97);
-    @media (max-width: 768px) {
-      font-size: 0.9rem;
-      line-height: 1.5;
-    }
-  }
+  font-size: 1.2rem;
 `;
 
-const SubText = styled.p`
-  font-size: 0.9rem;
-  font-weight: 400;
-  line-height: 1.5;
-  color: rgb(97, 97, 97);
-  margin-top: 16px;
-`;
-
-const LinkWrapper = styled.div`
-  text-align: center;
-`;
-
-const StyledButton = styled.button`
+const Button = styled.button`
   background-color: #16a34a;
   color: white;
-  font-size: 1rem;
-  font-weight: 500;
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
+  padding: 10px 20px;
+  margin-top: 15px;
   border: none;
+  border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  font-size: 1rem;
 
-  &:hover {
-    background-color: #15803d;
+  &:disabled {
+    background-color: #9ca3af;
+    cursor: not-allowed;
   }
+`;
 
-  @media (max-width: 768px) {
-    font-size: 0.9rem;
-  }
+const VerifyDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+`
+
+const ResendLink = styled.button`
+  margin-top: 10px;
+  border: none;
+  background: none;
+  color: #16a34a;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+`;
+
+const ErrorMessage = styled.p`
+  color: red;
+  font-size: 0.9rem;
+`;
+
+const SuccessMessage = styled.p`
+  color: green;
+  font-size: 0.9rem;
 `;
