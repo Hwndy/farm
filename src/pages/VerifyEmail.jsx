@@ -16,7 +16,7 @@ const VerifyEmail = () => {
     setError('');
     setMessage('');
     try {
-      const response = await axios.post('http://localhost:5000/api/v1/auth/verify-otp', { 
+      const response = await axios.post('https://farmera-eyu3.onrender.com/api/v1/auth/verify-otp', { 
         email, 
         otp 
       });
@@ -33,7 +33,7 @@ const VerifyEmail = () => {
     setLoading(true);
     setError('');
     try {
-      await axios.post('http://localhost:5000/api/v1/auth/resend-otp', { email });
+      await axios.post('https://farmera-eyu3.onrender.com/api/v1/auth/resend-otp', { email });
       setMessage('OTP resent successfully. Check your email.');
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to resend OTP');

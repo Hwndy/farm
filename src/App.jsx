@@ -21,20 +21,19 @@ import Store from "./pages/Store"
 import About from "./pages/About";
 import Cart from "./pages/Cart"
 import SignIn from "./pages/SignIn";
-import ForgotPassword from "./pages/ForgotPassword"
+// import ForgotPassword from "./pages/ForgotPassword"
 import CreateAccount from "./pages/CreateAccount";
 import Dashboard from "./pages/admin/Dashboard";
 import SearchResults from "./components/SearchResults";
 import CategoryResults from "./pages/CategoryResults";
 import Checkout from "./pages/Checkout";
 import VerifyEmail from "./pages/VerifyEmail";
-import CheckEmail from "./pages/CheckEmail"
-import EmailVerification from "./pages/EmailVerification";
+// import CheckEmail from "./pages/CheckEmail"
 import OrderSuccessPage from "./pages/OrderSuccessPage";
-
-// import ProductDetail from './pages/ProductDetail'
+import { ForgotPassword, VerifyResetOTP, ResetPassword } from './pages/PasswordReset';
 import Profile from "./pages/Profile";
 import OrderPage from "./pages/OrderPage";
+// import ProductDetail from './pages/ProductDetail'
 
 
 export default function App() {
@@ -61,10 +60,10 @@ export default function App() {
           <Route path="/help/faq" element={<Faq/>}/>
           <Route path="/help/contact" element={<Contact/>}/>
           <Route path="/verify-email" element={<VerifyEmail/>}/>
-          <Route path="/check-email" element={<CheckEmail/>}/>
-          <Route path="/auth/verify/:userId/:uniqueString" element={<EmailVerification/>}/>
           <Route path="/signin" element={<SignIn />} /> Sign-In Page
-          <Route path="/forgotpassword" element={<ForgotPassword/>}/>
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/verify-reset-otp" element={<VerifyResetOTP />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/signup" element={<CreateAccount />} />
           <Route path="/buyer-store" element={<Store />} />
           <Route path="/buyer-cart" element={<Cart />} />

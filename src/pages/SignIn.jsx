@@ -199,7 +199,7 @@ const SignIn = () => {
                         <label htmlFor="checkbox">Show Password</label>
                     </div>
 
-                    <Link to="/forgotpassword" className="link">Forgot Password?</Link>
+                    <Link to="/forgot-password" className="link">Forgot Password?</Link>
 
                     <button type="submit" className="signInButton" disabled={loading}>
                     
