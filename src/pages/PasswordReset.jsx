@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 
@@ -66,88 +66,14 @@ const ErrorMessage = styled.p`
 // 1. Forgot Password Page
 export const ForgotPassword = () => {
   const [email, setEmail] = useState('');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
-
-    try {
-      const response = await axios.post(
-        "https://farmera-eyu3.onrender.com/api/v1/auth/forgotPassword",
-        { email }
-      );
-
-      localStorage.setItem('resetEmail', email);
-      
-      navigate("/verify-reset-otp");
-    } catch (error) {
-      setError(error.response?.data?.error || "Network error. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return (
-    <Container>
-      <Card>
-        <h2>Reset Password</h2>
-        <p style={{ textAlign: 'center', color: '#969696', marginBottom: '20px' }}>
-          Enter your email to receive a password reset OTP
-        </p>
-        <Form onSubmit={handleSubmit}>
-          <Input 
-            type="email" 
-            placeholder="Enter your email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            error={!!error}
-          />
-          {error && <ErrorMessage>{error}</ErrorMessage>}
-          <Button 
-            type="submit" 
-            disabled={!email || loading}
-          >
-            {loading ? 'Sending...' : 'Send Reset OTP'}
-          </Button>
-        </Form>
-      </Card>
-    </Container>
-  );
-};
-
-// 2. OTP Verification Page
-export const VerifyResetOTP = () => {
   const [otp, setOtp] = useState('');
+  const [step, setStep] = useState('email');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const email = localStorage.getItem('resetEmail');
-
-  const handleVerify = async (e) => {
+  const handleEmailSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    setError('');
-
-    try {
-      const response = await axios.post(
-        "https://farmera-eyu3.onrender.com/api/v1/auth/verify-reset-otp", 
-        { email, otp }
-      );
-
-      navigate("/reset-password");
-    } catch (error) {
-      setError(error.response?.data?.message || "Verification failed");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleResendOTP = async () => {
     setLoading(true);
     setError('');
 
@@ -156,9 +82,26 @@ export const VerifyResetOTP = () => {
         "https://farmera-eyu3.onrender.com/api/v1/auth/forgotPassword",
         { email }
       );
-      alert("New OTP sent to your email");
+
+      setStep('otp');
     } catch (error) {
-      setError("Failed to resend OTP");
+      setError(error.response?.data?.error || "Network error. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleOTPSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+
+    try {
+      navigate("/reset-password", { 
+        state: { email, otp } 
+      });
+    } catch (error) {
+      setError(error.response?.data?.message || "Verification failed");
     } finally {
       setLoading(false);
     }
@@ -167,44 +110,54 @@ export const VerifyResetOTP = () => {
   return (
     <Container>
       <Card>
-        <h2>Verify OTP</h2>
+        <h2>{step === 'email' ? 'Reset Password' : 'Verify OTP'}</h2>
         <p style={{ textAlign: 'center', color: '#969696', marginBottom: '20px' }}>
-          Enter the 6-digit OTP sent to {email}
+          {step === 'email' 
+            ? 'Enter your email to receive a password reset OTP'
+            : `Enter the 6-digit OTP sent to ${email}`}
         </p>
-        <Form onSubmit={handleVerify}>
-          <Input 
-            type="text" 
-            placeholder="Enter 6-digit OTP"
-            maxLength="6"
-            value={otp}
-            onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))}
-            error={!!error}
-          />
+        <Form onSubmit={step === 'email' ? handleEmailSubmit : handleOTPSubmit}>
+          {step === 'email' ? (
+            <Input 
+              type="email" 
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              error={!!error}
+            />
+          ) : (
+            <Input 
+              type="text" 
+              placeholder="Enter 6-digit OTP"
+              maxLength="6"
+              value={otp}
+              onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))}
+              error={!!error}
+            />
+          )}
+          
           {error && <ErrorMessage>{error}</ErrorMessage>}
+          
           <Button 
             type="submit" 
-            disabled={otp.length !== 6 || loading}
+            disabled={
+              (step === 'email' && !email) || 
+              (step === 'otp' && otp.length !== 6) || 
+              loading
+            }
           >
-            {loading ? 'Verifying...' : 'Verify OTP'}
+            {loading 
+              ? (step === 'email' ? 'Sending...' : 'Verifying...') 
+              : (step === 'email' ? 'Send Reset OTP' : 'Verify OTP')
+            }
           </Button>
         </Form>
-        <p 
-          onClick={handleResendOTP} 
-          style={{ 
-            textAlign: 'center', 
-            color: '#16a34a', 
-            cursor: 'pointer', 
-            marginTop: '15px' 
-          }}
-        >
-          Resend OTP
-        </p>
       </Card>
     </Container>
   );
 };
 
-// 3. Reset Password Page
+// 2. Reset Password Page
 export const ResetPassword = () => {
   const [passwords, setPasswords] = useState({
     newPassword: '',
@@ -213,8 +166,10 @@ export const ResetPassword = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const email = localStorage.getItem('resetEmail');
+  const email = location.state?.email;
+  const otp = location.state?.otp;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -238,17 +193,14 @@ export const ResetPassword = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/v1/auth/resetPassword", 
+        "https://farmera-eyu3.onrender.com/api/v1/auth/resetPassword", 
         {
           email,
-          otp: localStorage.getItem('resetOTP'),
+          otp,
           newPassword: passwords.newPassword,
           confirmNewPassword: passwords.confirmPassword
         }
       );
-
-      localStorage.removeItem('resetEmail');
-      localStorage.removeItem('resetOTP');
 
       alert("Password reset successful");
       navigate("/signin");
@@ -258,6 +210,10 @@ export const ResetPassword = () => {
       setLoading(false);
     }
   };
+
+  if (!email || !otp) {
+    return <Navigate to="/forgot-password" />;
+  }
 
   return (
     <Container>

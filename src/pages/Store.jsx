@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { FaAngleRight } from "react-icons/fa";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Spinner from "../components/Spinner";
 
 const Store = () => {
   const [products, setProducts] = useState([]);
@@ -172,9 +173,9 @@ const Store = () => {
       </FiltersContainer> 
 
       {loading ? (
-        <Spinner>
-          <p style={{textAlign: "center"}}>Loading...</p>
-        </Spinner>
+        <p>
+        <Spinner/>
+        </p>
       ) : error ? (
         <p style={{ color: "red" }}>{error}</p>
       ) : (
@@ -445,25 +446,23 @@ const FeaturedProductsSection = styled.div`
   margin: 0px auto;
   
 `
-const Spinner = styled.div`
-  margin-top: 20px;
-  margin: auto;
-  border: 4px solid #f3f3f3;
-  border-top: 4px solid #16a34a;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  animation: spin 2s linear infinite;
+// const Spinner = styled.div`
+//   margin-top: 20px;
+//   margin: auto;
+//   border: 4px solid #f3f3f3;
+//   border-top: 4px solid #16a34a;
+//   border-radius: 50%;
+//   width: 50px;
+//   height: 50px;
+//   animation: spin 2s linear infinite;
   
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-`;
+//   @keyframes spin {
+//     0% { transform: rotate(0deg); }
+//     100% { transform: rotate(360deg); }
+//   }
+// `;
 const Toast = styled.div`
-
-
-position: fixed;  
+  position: fixed;  
   top: 20px;  
   right: 40%;
   width: fit-content;
@@ -480,8 +479,6 @@ position: fixed;
   transition: opacity 0.3s ease;
 `;
 
-
-
 const ProductWrapper = styled.div`
   max-width: 1200px;
   display: flex;
@@ -490,7 +487,6 @@ const ProductWrapper = styled.div`
   gap: 30px;
   margin-top: 20px;
 `
-
 const Pagination = styled.div`
   display: flex;
   justify-content: center;

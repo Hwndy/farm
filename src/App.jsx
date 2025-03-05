@@ -21,16 +21,14 @@ import Store from "./pages/Store"
 import About from "./pages/About";
 import Cart from "./pages/Cart"
 import SignIn from "./pages/SignIn";
-// import ForgotPassword from "./pages/ForgotPassword"
 import CreateAccount from "./pages/CreateAccount";
 import Dashboard from "./pages/admin/Dashboard";
 import SearchResults from "./components/SearchResults";
 import CategoryResults from "./pages/CategoryResults";
 import Checkout from "./pages/Checkout";
 import VerifyEmail from "./pages/VerifyEmail";
-// import CheckEmail from "./pages/CheckEmail"
 import OrderSuccessPage from "./pages/OrderSuccessPage";
-import { ForgotPassword, VerifyResetOTP, ResetPassword } from './pages/PasswordReset';
+import { ForgotPassword, ResetPassword } from './pages/PasswordReset';
 import Profile from "./pages/Profile";
 import OrderPage from "./pages/OrderPage";
 // import ProductDetail from './pages/ProductDetail'
@@ -62,7 +60,6 @@ export default function App() {
           <Route path="/verify-email" element={<VerifyEmail/>}/>
           <Route path="/signin" element={<SignIn />} /> Sign-In Page
           <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/verify-reset-otp" element={<VerifyResetOTP />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/signup" element={<CreateAccount />} />
           <Route path="/buyer-store" element={<Store />} />
