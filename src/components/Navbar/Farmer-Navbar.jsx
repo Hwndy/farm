@@ -9,8 +9,6 @@ import{debounce} from 'lodash'
 import { useAuth } from "../../context/AuthContext";
 import { VscAccount } from "react-icons/vsc";
 
-// Styled Components
-
 const SearchInput = styled.input`
   width: 100%;
   padding: 0.5rem;
