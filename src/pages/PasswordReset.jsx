@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
@@ -63,14 +63,79 @@ const ErrorMessage = styled.p`
   margin-top: 5px;
 `;
 
-// 1. Forgot Password Page
+const OtpContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 15px;
+  width: 100%;
+`;
+
+const OtpInput = styled.input`
+  width: 40px;
+  height: 40px;
+  border: 1px solid ${props => props.error ? 'red' : '#e5e5e5'};
+  border-radius: 5px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  outline: none;
+  
+  &:focus {
+    border-color: #16a34a;
+    box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.2);
+  }
+  
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+`;
+
 export const ForgotPassword = () => {
   const [email, setEmail] = useState('');
-  const [otp, setOtp] = useState('');
+  const [otpValues, setOtpValues] = useState(['', '', '', '', '', '']);
   const [step, setStep] = useState('email');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  
+  const inputRefs = useRef([]);
+  
+  useEffect(() => {
+    inputRefs.current = inputRefs.current.slice(0, 6);
+  }, []);
+
+  const handleOtpChange = (index, value) => {
+    if (!/^\d*$/.test(value)) return;
+    
+    const newOtpValues = [...otpValues];
+    newOtpValues[index] = value;
+    setOtpValues(newOtpValues);
+    
+    if (value && index < 5) {
+      inputRefs.current[index + 1].focus();
+    }
+  };
+``
+  const handleKeyDown = (index, e) => {
+    if (e.key === 'Backspace' && !otpValues[index] && index > 0) {
+      inputRefs.current[index - 1].focus();
+    }
+  };
+
+  const handlePaste = (e) => {
+    e.preventDefault();
+    const pastedData = e.clipboardData.getData('text');
+    
+    if (/^\d{6}$/.test(pastedData)) {
+      const digits = pastedData.split('');
+      setOtpValues(digits);
+      
+      inputRefs.current[5].focus();
+    }
+  };
 
   const handleEmailSubmit = async (e) => {
     e.preventDefault();
@@ -97,6 +162,7 @@ export const ForgotPassword = () => {
     setError('');
 
     try {
+      const otp = otpValues.join('');
       navigate("/reset-password", { 
         state: { email, otp } 
       });
@@ -126,14 +192,21 @@ export const ForgotPassword = () => {
               error={!!error}
             />
           ) : (
-            <Input 
-              type="text" 
-              placeholder="Enter 6-digit OTP"
-              maxLength="6"
-              value={otp}
-              onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))}
-              error={!!error}
-            />
+            <OtpContainer onPaste={handlePaste}>
+              {otpValues.map((digit, index) => (
+                <OtpInput
+                  key={index}
+                  type="text"
+                  maxLength="1"
+                  value={digit}
+                  onChange={(e) => handleOtpChange(index, e.target.value)}
+                  onKeyDown={(e) => handleKeyDown(index, e)}
+                  ref={el => inputRefs.current[index] = el}
+                  autoFocus={index === 0}
+                  error={!!error}
+                />
+              ))}
+            </OtpContainer>
           )}
           
           {error && <ErrorMessage>{error}</ErrorMessage>}
@@ -142,7 +215,7 @@ export const ForgotPassword = () => {
             type="submit" 
             disabled={
               (step === 'email' && !email) || 
-              (step === 'otp' && otp.length !== 6) || 
+              (step === 'otp' && otpValues.join('').length !== 6) || 
               loading
             }
           >
@@ -212,7 +285,8 @@ export const ResetPassword = () => {
   };
 
   if (!email || !otp) {
-    return <Navigate to="/forgot-password" />;
+    navigate("/forgot-password");
+    return null;
   }
 
   return (

@@ -1,17 +1,56 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const VerifyEmail = () => {
-  const [otp, setOtp] = useState('');
+  const [otpValues, setOtpValues] = useState(['', '', '', '', '', '']);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
   const email = localStorage.getItem('user');
+  
+  const inputRefs = useRef([]);
+  
+  useEffect(() => {
+    inputRefs.current = inputRefs.current.slice(0, 6);
+  }, []);
 
-  const handleVerify = async () => {  
+  const handleChange = (index, value) => {
+    if (!/^\d*$/.test(value)) return;
+    
+    const newOtpValues = [...otpValues];
+    newOtpValues[index] = value;
+    setOtpValues(newOtpValues);
+    
+    if (value && index < 5) {
+      inputRefs.current[index + 1].focus();
+    }
+  };
+
+  const handleKeyDown = (index, e) => {
+    if (e.key === 'Backspace' && !otpValues[index] && index > 0) {
+      inputRefs.current[index - 1].focus();
+    }
+  };
+
+  const handlePaste = (e) => {
+    e.preventDefault();
+    const pastedData = e.clipboardData.getData('text');
+    
+    if (/^\d{6}$/.test(pastedData)) {
+      const digits = pastedData.split('');
+      setOtpValues(digits);
+      
+      inputRefs.current[5].focus();
+    }
+  };
+
+  const handleVerify = async () => {
+    const otp = otpValues.join('');
+    if (otp.length !== 6) return;
+    
     setLoading(true);
     setError('');
     setMessage('');
@@ -47,20 +86,35 @@ const VerifyEmail = () => {
       <Card>
         <h1>Verify Your Email</h1>
         <p>Enter the 6-digit OTP sent to your email</p>
-        <Input 
-          type="text" 
-          maxLength="6" 
-          value={otp} 
-          onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))}
-          placeholder="Enter OTP" 
-        />
+        
+        <OtpContainer onPaste={handlePaste}>
+          {otpValues.map((digit, index) => (
+            <OtpInput
+              key={index}
+              type="text"
+              maxLength="1"
+              value={digit}
+              onChange={(e) => handleChange(index, e.target.value)}
+              onKeyDown={(e) => handleKeyDown(index, e)}
+              ref={el => inputRefs.current[index] = el}
+              autoFocus={index === 0}
+            />
+          ))}
+        </OtpContainer>
+        
         {error && <ErrorMessage>{error}</ErrorMessage>}
         {message && <SuccessMessage>{message}</SuccessMessage>}
+        
         <VerifyDiv>
-          <Button onClick={handleVerify} disabled={loading || otp.length !== 6}>
+          <Button 
+            onClick={handleVerify} 
+            disabled={loading || otpValues.join('').length !== 6}
+          >
             {loading ? 'Verifying...' : 'Verify'}
           </Button>
-          <ResendLink onClick={handleResendOtp} disabled={loading}>Resend OTP</ResendLink>
+          <ResendLink onClick={handleResendOtp} disabled={loading}>
+            Resend OTP
+          </ResendLink>
         </VerifyDiv>
       </Card>
     </Container>
@@ -83,16 +137,39 @@ const Card = styled.div`
   border-radius: 8px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
+  width: 100%;
+  max-width: 400px;
 `;
 
-const Input = styled.input`
-  width: 100%;
-  padding: 10px;
-  margin-top: 10px;
+const OtpContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 24px 0 16px;
+`;
+
+const OtpInput = styled.input`
+  width: 45px;
+  height: 45px;
   border: 1px solid #ddd;
-  border-radius: 5px;
+  border-radius: 8px;
   text-align: center;
   font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+  
+  &:focus {
+    border-color: #16a34a;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.2);
+  }
+  
+  /* Hide spinner for number inputs */
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 `;
 
 const Button = styled.button`
@@ -104,6 +181,12 @@ const Button = styled.button`
   border-radius: 5px;
   cursor: pointer;
   font-size: 1rem;
+  font-weight: 500;
+  transition: background-color 0.2s;
+
+  &:hover:not(:disabled) {
+    background-color: #15803d;
+  }
 
   &:disabled {
     background-color: #9ca3af;
@@ -113,12 +196,12 @@ const Button = styled.button`
 
 const VerifyDiv = styled.div`
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   gap: 10px;
-`
+`;
 
 const ResendLink = styled.button`
-  margin-top: 10px;
   border: none;
   background: none;
   color: #16a34a;
@@ -126,14 +209,25 @@ const ResendLink = styled.button`
   font-weight: 500;
   cursor: pointer;
   text-decoration: none;
+  
+  &:hover {
+    text-decoration: underline;
+  }
+  
+  &:disabled {
+    color: #9ca3af;
+    cursor: not-allowed;
+  }
 `;
 
 const ErrorMessage = styled.p`
-  color: red;
+  color: #dc2626;
   font-size: 0.9rem;
+  margin: 8px 0;
 `;
 
 const SuccessMessage = styled.p`
-  color: green;
+  color: #16a34a;
   font-size: 0.9rem;
+  margin: 8px 0;
 `;
