@@ -244,30 +244,24 @@ export default SignIn;
 const FormWrapper = styled.div`
 
     width: 100%;
-    height: 735px;
     min-height: 100vh;
-
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-
     box-sizing: border-box;
-    padding-top: 50px;
-    padding-bottom: 50px;
-
+    padding-top: 2rem;
+    padding-bottom: 2rem;
     background-color: #efefef;
 
-    h2{
+    h2 {
         font-size: 25px;
         font-weight: 500;
         text-align: center;
         width: inherit;
-
         color: #15803d;
-
-        margin-top: 0px;
-        margin-bottom: 35px;
+        margin-top: 0;
+        margin-bottom: 1.5rem;
     }
     .formAndCo{
         width: 100%;

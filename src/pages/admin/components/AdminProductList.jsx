@@ -44,11 +44,33 @@ const Header = styled.div`
 
 const TableContainer = styled.div`
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: -0.5rem;
+  padding: 0.5rem;
+  
+  @media (max-width: 768px) {
+    position: relative;
+    &::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 30px;
+      background: linear-gradient(to right, transparent, rgba(255,255,255,0.9));
+      pointer-events: none;
+    }
+  }
 `;
 
 const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
+  table-layout: fixed;
+
+  @media (max-width: 768px) {
+    min-width: calc(100% + 200px); // Forces horizontal scroll
+  }
 
   thead {
     tr {
@@ -61,6 +83,25 @@ const Table = styled.table`
       font-weight: bold;
       font-size: 0.875rem;
       color: #374151;
+      white-space: nowrap;
+
+      @media (max-width: 768px) {
+        &:first-child {
+          width: 40%;
+        }
+        &:nth-child(2) {
+          width: 15%;
+        }
+        &:nth-child(3) {
+          width: 15%;
+        }
+        &:nth-child(4) {
+          width: 15%;
+        }
+        &:last-child {
+          width: 15%;
+        }
+      }
     }
   }
 
@@ -78,45 +119,101 @@ const Table = styled.table`
       font-size: 0.875rem;
       color: #4b5563;
 
-      img {
-        height: 2.5rem;
-        width: 2.5rem;
-        border-radius: 0.375rem;
-        object-fit: cover;
-      }
-
-      span.status {
-        display: inline-block;
-        padding: 0.25rem 0.5rem;
-        background-color: #d1fae5;
-        color: #065f46;
-        border-radius: 9999px;
-        font-size: 0.75rem;
-        font-weight: bold;
-      }
-
-      .actions {
-        display: flex;
-        justify-content: flex-end;
-        gap: 0.5rem;
-
-        button {
-          background: none;
-          border: none;
-          padding: 0.5rem;
-          color: #6b7280;
-          cursor: pointer;
-          transition: color 0.3s;
-
-          &:hover {
-            color: #16a34a;
-          }
-
-          &.delete:hover {
-            color: #dc2626;
-          }
+      @media (max-width: 768px) {
+        &:first-child {
+          width: 40%;
+        }
+        &:nth-child(2) {
+          width: 15%;
+        }
+        &:nth-child(3) {
+          width: 15%;
+        }
+        &:nth-child(4) {
+          width: 15%;
+        }
+        &:last-child {
+          width: 15%;
         }
       }
+    }
+  }
+`;
+
+const ProductInfo = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  
+  @media (max-width: 768px) {
+    gap: 0.5rem;
+  }
+
+  img {
+    height: 2.5rem;
+    width: 2.5rem;
+    border-radius: 0.375rem;
+    object-fit: cover;
+    flex-shrink: 0;
+    
+    @media (max-width: 768px) {
+      height: 2rem;
+      width: 2rem;
+    }
+  }
+
+  span {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    
+    @media (max-width: 768px) {
+      font-size: 0.75rem;
+    }
+  }
+`;
+
+const StatusBadge = styled.span`
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  background-color: #d1fae5;
+  color: #065f46;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  white-space: nowrap;
+  
+  @media (max-width: 768px) {
+    padding: 0.2rem 0.4rem;
+    font-size: 0.7rem;
+  }
+`;
+
+const ActionButtons = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  white-space: nowrap;
+
+  button {
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    color: #6b7280;
+    cursor: pointer;
+    transition: color 0.3s;
+    
+    @media (max-width: 768px) {
+      padding: 0.4rem;
+    }
+
+    &:hover {
+      color: #16a34a;
+    }
+
+    &.delete:hover {
+      color: #dc2626;
     }
   }
 `;
@@ -207,25 +304,27 @@ export default function AdminProductList({handleProductNo}) {
             {products.map((product) => (
               <tr key={product._id}>
                 <td>
-                  <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+                  <ProductInfo>
                     <img src={product.images[0]} alt={product.name} />
                     <span>{product.name}</span>
-                  </div>
+                  </ProductInfo>
                 </td>
                 <td>₦{product.price}</td>
                 <td>{product.qtyAvailable}</td>
                 <td>
-                  <span className="status">{product.qtyAvailable > 0 ? "In Stock" : "Out of Stock"}</span>
+                  <StatusBadge>
+                    {product.qtyAvailable > 0 ? "In Stock" : "Out of Stock"}
+                  </StatusBadge>
                 </td>
                 <td>
-                  <div className="actions">
+                  <ActionButtons>
                     <button onClick={() => handleEdit(product)}>
                       <Pencil size={16} />
                     </button>
                     <button className="delete" onClick={() => handleDelete(product._id)}>
                       <Trash2 size={16} />
                     </button>
-                  </div>
+                  </ActionButtons>
                 </td>
               </tr>
             ))}

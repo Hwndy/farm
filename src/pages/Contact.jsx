@@ -87,24 +87,24 @@ const ContactWrapper = styled.div`
 const ContactHeader = styled.div`
     height: 229px;
     background-color: blue;
-    background-image:url("/Farmera-helpPage-background-image.jpg") ;
-    background-size: contain;
+    background-image: url("/Farmera-helpPage-background-image.jpg");
+    background-size: cover; // Changed from contain to cover
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-
-
-    h1{
+    h1 {
         font-size: 70px;
         color: white;
         text-align: center;
 
-        @media (max-width: 400px) {
-        h1{
-            text-align: center;
+        @media (max-width: 768px) {
+            font-size: 40px;
         }
-    }
 
-        @media(max-width: 370px){
-            font-size: 50px;
+        @media (max-width: 480px) {
+            font-size: 32px;
         }
     }
 `
@@ -126,85 +126,54 @@ const Contacts = styled.div`
     background-color: white;
     width: 900px;
 
-    .generalInq{
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around;
-
-        @media(max-width: 750px){
-                gap: 15px;
-                justify-content: left;
-            }
-
-        p{
-            @media(max-width: 850px){
-                font-size: 12px;
-            }
-
-            @media(max-width: 750px){
-                font-size: 15px;
-            }
-
-            @media(max-width: 370px){
-                font-size: 15px;
-            }
-        }
+    @media (max-width: 1050px) {
+        width: 90%; // Use percentage instead of fixed width
     }
 
-    #fontSize-20px{
-        font-size: 20px;
-        
-        @media(max-width: 370px){
+    @media (max-width: 750px) {
+        flex-direction: column; // Stack elements vertically on mobile
+        width: 90%;
+        gap: 30px;
+        padding: 20px;
+    }
+
+    .generalInq {
+        display: flex;
+        flex-direction: column;
+        gap: 20px; // Consistent spacing
+
+        @media (max-width: 750px) {
+            align-items: center; // Center content on mobile
             text-align: center;
         }
     }
 
-   .flexDiv{
-    display: flex;
-    align-items: center;
-    gap: 20px;
+    #fontSize-20px {
+        font-size: 20px;
+        margin-bottom: 10px;
+        
+        @media (max-width: 750px) {
+            font-size: 18px;
+        }
+    }
 
-     p{
-        font-size: 15px;
-     }
+    .flexDiv {
+        display: flex;
+        align-items: center;
+        gap: 15px;
 
-     a{
-        text-decoration: none;
-        color: black;
-     }
- }
+        @media (max-width: 750px) {
+            justify-content: center; // Center items on mobile
+        }
 
- @media (max-width: 1050px) {
-    width: 800px;
- }
-
- @media (max-width: 850px){
-    width: 700px;
- }
-
- @media (max-width: 750px){
-    display: flex;
-    flex-wrap: wrap;
-    width: 400px;
-    gap: 50px;
- }
-
- @media (max-width: 550px){
-    width: 400px;
- }
-
- @media (max-width: 450px){
-    width: 250px;
-    padding: 10px;
-    gap: 50px;
- }
-
- @media (max-width: 370px){
-    width: 250px;
-    padding: 10px;
-    gap: 50px;
- }
-
+        p {
+            font-size: 15px;
+            
+            @media (max-width: 750px) {
+                font-size: 14px;
+            }
+        }
+    }
 `
 
 const Request = styled.div`
@@ -212,210 +181,65 @@ const Request = styled.div`
     margin-top: 18px;
 
     @media (max-width: 1050px) {
-    width: 400px;
- }
+        width: 100%; // Use full width on smaller screens
+    }
 
-    @media(max-width: 850px){
-    width: 300px;
- }
-
-    @media(max-width: 450px){
-    width: 200px;
- }
-
-    @media(max-width: 370px){
-    width: 200px;
- }
-
-   form{
+    form {
         display: flex;
         flex-direction: column;
         gap: 15px;
     }
-    .names{
+
+    .names {
         display: flex;
         justify-content: space-between;
+        gap: 15px;
 
-        @media(max-width: 450px){
-            display: flex;
+        @media (max-width: 750px) {
             flex-direction: column;
-            gap: 15px;
         }
 
-        @media(max-width: 370px){
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .john{
+        .john {
             height: 20px;
-            width: 210px;
+            width: 100%; // Use full width
             border-radius: 5px;
             padding: 15px;
-
-            @media (max-width: 1050px) {
-                height: 10px;
-                width: 160px;
-                border-radius: 5px;
-                padding: 15px;
-            }
-
-            @media (max-width: 850px) {
-                height: 10px;
-                width: 130px;
-                border-radius: 5px;
-                padding: 20px;
-            }
-
-            @media (max-width: 450px) {
-                height: 10px;
-                width: 166px;
-                border-radius: 5px;
-                padding: 15px;
-            }
-
-            @media (max-width: 370px) {
-                height: 10px;
-                width: 166px;
-                border-radius: 5px;
-                padding: 15px;
-            }
         }
     }
 
-   #email{
-        width: 500px;
+    #email, #tA {
+        width: 100%; // Use full width
         padding: 15px;
         border-radius: 5px;
-
-        @media (max-width: 1050px) {
-            width: 378px;
-            padding: 15px;
-            border-radius: 5px;
-        }
-
-        @media (max-width: 850px) {
-            width: 300px;
-            padding: 15px;
-            border-radius: 5px;
-        }
-
-        @media (max-width: 450px) {
-            width: 166px;
-            padding: 15px;
-            border-radius: 5px;
-        }
-
-        @media (max-width: 370px) {
-            width: 166px;
-            padding: 15px;
-            border-radius: 5px;
-        }
     }
 
-    #tA{
-        width: 500px;
+    #tA {
         height: 100px;
-        padding: 15px;
-        border-radius: 5px;
-
-        @media (max-width: 1050px){
-            width: 378px;
-            height: 100px;
-            padding: 15px;
-            border-radius: 5px;
-        }
-
-        @media (max-width: 850px){
-            width: 300px;
-            height: 100px;
-            padding: 15px;
-            border-radius: 5px;
-        }
-
-        @media (max-width: 450px){
-            width: 167px;
-            height: 100px;
-            padding: 15px;
-            border-radius: 5px;
-        }
-
-        @media (max-width: 370px) {
-            width: 167px;
-            height: 100px;
-            padding: 15px;
-            border-radius: 5px;
-        }
     }
 
-   #button{
+    #button {
         width: 150px;
         height: 50px;
         background-color: #16a34a;
         color: white;
         display: flex;
+        align-items: center;
         justify-content: center;
-        text-align: center;
-        padding: 20px;
+        padding: 10px 20px;
         border-radius: 5px;
         border: none;
+        transition: transform 0.2s ease;
 
-        @media(max-width: 1050px){
-            width: 100px;
+        @media (max-width: 750px) {
+            width: 120px;
             height: 40px;
-            background-color: green;
-            color: white;
-            display: flex;
-            justify-content: center;
-            text-align: center;
-            padding: 5px;
-            border-radius: 5px;
-            border: none;
+            font-size: 14px;
         }
 
-        @media (max-width: 850px){
-            width: 100px;
-            height: 40px;
-            background-color: green;
-            color: white;
-            display: flex;
-            justify-content: center;
-            text-align: center;
-            padding: 5px;
-            border-radius: 5px;
-            border: none;
+        &:hover {
+            transform: scale(1.05);
+            background-color: #15803d;
         }
-
-        @media (max-width: 450px){
-            width: 80px;
-            height: 40px;
-            background-color: green;
-            color: white;
-            display: flex;
-            justify-content: center;
-            text-align: center;
-            padding: 5px;
-            border-radius: 5px;
-            border: none;
-        }
-
-        @media (max-width: 370px) {
-            width: 80px;
-            height: 40px;
-            background-color: green;
-            color: white;
-            display: flex;
-            justify-content: center;
-            text-align: center;
-            padding: 5px;
-            border-radius: 5px;
-            border: none;
-        }
-    }
-    
-      #button:hover{
-            transform: scale(1.1);
     }
 `
 

@@ -6,6 +6,7 @@ import { FaAngleRight } from "react-icons/fa";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Spinner from "../components/Spinner";
+import { ChevronDown } from "react-feather";
 
 const Store = () => {
   const [products, setProducts] = useState([]);
@@ -23,6 +24,7 @@ const Store = () => {
     location: "",
     search: "",
   });
+  const [isMobileDropdownOpen, setIsMobileDropdownOpen] = useState(false);
 
   const nigerianStates = [
     "Abia", "Adamawa", "Akwa Ibom", "Anambra", "Bauchi", "Bayelsa", "Benue", "Borno", "Cross River", 
@@ -145,6 +147,17 @@ const Store = () => {
     fetchAndSetProducts(page);
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!event.target.closest('.mobile-category-select')) {
+        setIsMobileDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   return (
     <Div>
       <Toast visible={showToast}>Product added to cart successfully!</Toast>
@@ -181,25 +194,56 @@ const Store = () => {
       ) : (
         <FeaturedProductsSection>
           <div>
-              <CategoriesDiv>
-                <Categories key="all-products" onClick={() => handleCategoryClick('')}>
-                  <h5>All Products</h5>
+            {/* Desktop Categories */}
+            <CategoriesDiv>
+              <Categories key="all-products" onClick={() => handleCategoryClick('')}>
+                <h5>All Products</h5>
+              </Categories>
+              {categories.map((category) => (
+                <Categories
+                  key={category._id}
+                  className={`category ${selectedCategory === category.name ? 'focused' : ''}`}
+                  onClick={() => handleCategoryClick(category.name)}
+                >
+                  {category.name}
                 </Categories>
+              ))}
+            </CategoriesDiv>
+
+            {/* Mobile Categories Dropdown */}
+            <MobileCategorySelect className="mobile-category-select">
+              <SelectButton 
+                onClick={() => setIsMobileDropdownOpen(!isMobileDropdownOpen)}
+                isOpen={isMobileDropdownOpen}
+              >
+                <span>{selectedCategory || 'All Products'}</span>
+                <ChevronDown size={20} />
+              </SelectButton>
+
+              <DropdownList isOpen={isMobileDropdownOpen}>
+                <DropdownItem 
+                  isSelected={!selectedCategory}
+                  onClick={() => {
+                    handleCategoryClick('');
+                    setIsMobileDropdownOpen(false);
+                  }}
+                >
+                  All Products
+                </DropdownItem>
                 {categories.map((category) => (
-                  <Categories
-                    key={category._id}  className={`category ${selectedCategory === category.name ? 'focused' : ''}`} onClick={() => handleCategoryClick(category.name)}>
+                  <DropdownItem
+                    key={category._id}
+                    isSelected={selectedCategory === category.name}
+                    onClick={() => {
+                      handleCategoryClick(category.name);
+                      setIsMobileDropdownOpen(false);
+                    }}
+                  >
                     {category.name}
-                  </Categories>
+                  </DropdownItem>
                 ))}
-              </CategoriesDiv>
-      
-              {selectedCategory && (
-              <CategoryDisplay>
-                {/* <button onClick={() => setSelectedCategory(null)}>Back</button> */}
-                {/* <h2>{selectedCategory}</h2> */}
-              </CategoryDisplay>
-            
-            )}
+              </DropdownList>
+            </MobileCategorySelect>
           </div>
           <ProductWrapper>
             {products.length === 0 ? (
@@ -318,19 +362,36 @@ const CloseButton = styled.button`
 `;
 const FiltersContainer = styled.div`
   display: flex;
-  flex-direction: column;
   gap: 1rem;
   margin-bottom: 2rem;
   max-width: 1050px;
-  margin: 0px auto;
+  margin: 20px auto;
   justify-content: center;
   align-items: center;
+  padding: 0 15px;
 
-  @media (min-width: 640px) {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+  @media (max-width: 1024px) {
+    padding: 0 20px;
+    gap: 0.8rem;
   }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .filter-item {
+    flex: 1;
+    min-width: 200px;
+
+    @media (max-width: 768px) {
+      width: 100%;
+      min-width: unset;
+    }
+  }
+
   input,
   select {
     padding: 0.75rem;
@@ -338,7 +399,6 @@ const FiltersContainer = styled.div`
     border-radius: 0.375rem;
     border: 1px solid #d1d5db;
     width: 100%;
-    max-width: 200px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     transition: border-color 0.3s ease;
 
@@ -347,73 +407,55 @@ const FiltersContainer = styled.div`
       border-color: #16a34a; 
       box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.3);
     }
+
     &::placeholder {
       color: #6b7280; 
       opacity: 1;
     }
-  }
 
-  select {
-    background-color: #fff;
-    cursor: pointer;
-  }
-  input[type="number"] {
-    -moz-appearance: textfield;
-  }
-
-  .filter-label {
-    font-weight: bold;
-    font-size: 14px;
-    color: #333;
-  }
-
-  .select-wrapper {
-    width: 100%;
-    max-width: 200px;
+    @media (max-width: 768px) {
+      font-size: 16px; // Better for mobile touch
+      padding: 0.875rem;
+    }
   }
 `;
 
 const CategoriesDiv = styled.div`
-  /* margin-left: 60px; */
-  margin: 0px auto;
-  margin-top: 30px;
-  max-width: 1100px;
   display: flex;
+  gap: 1rem;
   flex-wrap: wrap;
-  gap: 20px;
-  display: flex;
-  justify-content: space-around;
-`
+  margin-bottom: 2rem;
 
-
-const LocationSelect = styled.select`
-  padding: 0.5rem;
-  font-size: 14px;
-  border-radius: 0.375rem;
-  border: 1px solid #d1d5db;
-  width: 100%;
-  max-width: 200px;
-  transition: border-color 0.3s ease;
-
-  &:focus {
-    outline: none;
-    border-color: #16a34a;
+  @media (max-width: 768px) {
+    display: none;
   }
-`;
-
-const FilterLabel = styled.label`
-  font-weight: bold;
-  font-size: 14px;
-  color: #333;
 `;
 
 const Categories = styled.div`
   border: 1px solid #16a34a;
   background-color: transparent;
   border-radius: 5px;
-  padding: 10px;
+  padding: 12px 20px;
   cursor: pointer;
   transition: all 0.3s ease;
+  text-align: center;
+  min-width: 120px;
+
+  @media (max-width: 1024px) {
+    padding: 10px 16px;
+    min-width: 100px;
+  }
+
+  @media (max-width: 768px) {
+    padding: 8px 14px;
+    min-width: auto;
+    flex: 0 1 calc(33.333% - 10px); // 3 items per row on mobile
+    font-size: 14px;
+  }
+
+  @media (max-width: 480px) {
+    flex: 0 1 calc(50% - 10px); // 2 items per row on smaller devices
+  }
 
   &:hover {
     color: white;
@@ -422,20 +464,51 @@ const Categories = styled.div`
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
 
-  &:focus {
-    outline: none;
+  &.focused {
     background-color: #16a34a;
-    transform: scale(1.05);
-    box-shadow: 0 0 5px 2px rgba(22, 163, 74, 0.5);
     color: white;
+    transform: scale(1.05);
   }
 
-  &.focused {
-    background-color: #cce7ff;
-    border-color: #0066cc;
-    transform: scale(1.1);
-    box-shadow: 0 0 5px 2px rgba(0, 102, 204, 0.4);
-    color: #0066cc;
+  h5 {
+    margin: 0;
+    font-size: 15px;
+
+    @media (max-width: 768px) {
+      font-size: 14px;
+    }
+  }
+`;
+
+const FilterLabel = styled.label`
+  font-weight: bold;
+  font-size: 14px;
+  color: #333;
+  display: block;
+  margin-bottom: 8px;
+
+  @media (max-width: 768px) {
+    font-size: 15px;
+  }
+`;
+
+const LocationSelect = styled.select`
+  padding: 0.75rem;
+  font-size: 14px;
+  border-radius: 0.375rem;
+  border: 1px solid #d1d5db;
+  width: 100%;
+  transition: border-color 0.3s ease;
+
+  @media (max-width: 768px) {
+    font-size: 16px;
+    padding: 0.875rem;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: #16a34a;
+    box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.3);
   }
 `;
 
@@ -485,8 +558,14 @@ const ProductWrapper = styled.div`
   justify-content: center;
   flex-wrap: wrap;
   gap: 30px;
-  margin-top: 20px;
-`
+  margin: 20px auto;
+  padding: 0 15px;
+
+  @media (max-width: 768px) {
+    gap: 15px;
+    padding: 0 10px;
+  }
+`;
 const Pagination = styled.div`
   display: flex;
   justify-content: center;
@@ -519,33 +598,59 @@ const ProductCard = styled.div`
   overflow: hidden;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
+  @media (max-width: 768px) {
+    width: calc(50% - 7.5px); // Accounts for the 15px gap between cards
+    padding: 8px;
+  }
+
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     cursor: pointer;
   }
 
   img {
-    width: 230px;
+    width: 100%;
     height: 13rem;
     border-radius: 0.375rem;
     object-fit: cover;
+
+    @media (max-width: 768px) {
+      height: 150px;
+    }
   }
 
   div {
     padding: 1rem;
 
-    h2{
-      font-size: 15px;
-      margin-bottom: 5px;
+    @media (max-width: 768px) {
+      padding: 0.5rem;
     }
 
-    h3{
+    h2 {
+      font-size: 15px;
+      margin-bottom: 5px;
+
+      @media (max-width: 768px) {
+        font-size: 13px;
+        margin-bottom: 3px;
+      }
+    }
+
+    h3 {
       color: #16a34a;
+
+      @media (max-width: 768px) {
+        font-size: 14px;
+      }
     }
 
     p {
       color: black;
       font-size: 12px;
+
+      @media (max-width: 768px) {
+        font-size: 11px;
+      }
     }
 
     button {
@@ -559,9 +664,75 @@ const ProductCard = styled.div`
       cursor: pointer;
       transition: background-color 0.3s;
 
+      @media (max-width: 768px) {
+        margin-top: 0.5rem;
+        padding: 0.4rem;
+        font-size: 12px;
+      }
+
       &:hover {
         background-color: #15803d;
       }
     }
   }
 `
+
+const MobileCategorySelect = styled.div`
+  display: none;
+  width: 100%;
+  margin-bottom: 1rem;
+  position: relative;
+
+  @media (max-width: 768px) {
+    display: block;
+  }
+`;
+
+const SelectButton = styled.button`
+  width: 100%;
+  padding: 12px 16px;
+  background: white;
+  border: 1px solid #16a34a;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 16px;
+  color: #16a34a;
+
+  svg {
+    transition: transform 0.2s ease;
+    transform: ${props => props.isOpen ? 'rotate(180deg)' : 'rotate(0deg)'};
+  }
+`;
+
+const DropdownList = styled.div`
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 4px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 5px;
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  display: ${props => props.isOpen ? 'block' : 'none'};
+`;
+
+const DropdownItem = styled.div`
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  
+  &:hover {
+    background-color: #f3f4f6;
+  }
+  
+  ${props => props.isSelected && `
+    background-color: #f0fdf4;
+    color: #16a34a;
+  `}
+`;

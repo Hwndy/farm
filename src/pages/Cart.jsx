@@ -110,6 +110,11 @@ const CartContainer = styled.div`
   max-width: 1200px;
   margin: 2rem auto;
   padding: 0 1rem;
+
+  @media (max-width: 768px) {
+    margin: 1rem auto;
+    padding: 0 0.75rem;
+  }
 `;
 
 const CartHeader = styled.div`
@@ -117,6 +122,17 @@ const CartHeader = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+
+    h1 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+  }
 `;
 
 const CartGrid = styled.div`
@@ -144,6 +160,12 @@ const CartItem = styled.div`
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   align-items: center;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    padding: 0.75rem;
+  }
 `;
 
 const ProductImage = styled.img`
@@ -151,6 +173,11 @@ const ProductImage = styled.img`
   height: 100px;
   object-fit: cover;
   border-radius: 4px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    height: 200px;
+  }
 `;
 
 const ProductInfo = styled.div`
@@ -162,6 +189,17 @@ const ProductInfo = styled.div`
     margin: 0;
     color: #666;
     font-size: 0.9rem;
+  }
+
+  @media (max-width: 768px) {
+    text-align: center;
+    
+    h3 {
+      font-size: 1rem;
+    }
+    p {
+      font-size: 0.8rem;
+    }
   }
 `;
 
@@ -189,6 +227,20 @@ const QuantityControl = styled.div`
     min-width: 2rem;
     text-align: center;
   }
+
+  @media (max-width: 768px) {
+    justify-content: center;
+    margin: 0.5rem 0;
+
+    button {
+      padding: 0.75rem;
+    }
+
+    span {
+      min-width: 3rem;
+      font-size: 1.1rem;
+    }
+  }
 `;
 
 const PriceInfo = styled.div`
@@ -197,6 +249,20 @@ const PriceInfo = styled.div`
   p {
     margin: 0 0 0.5rem 0;
     font-weight: bold;
+  }
+
+  @media (max-width: 768px) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding-top: 0.5rem;
+    border-top: 1px solid #e5e7eb;
+
+    p {
+      margin: 0;
+      font-size: 1.1rem;
+    }
   }
 `;
 
@@ -210,6 +276,10 @@ const DeleteButton = styled.button`
   &:hover {
     color: #dc2626;
   }
+
+  @media (max-width: 768px) {
+    padding: 0.75rem;
+  }
 `;
 
 const CartSummary = styled.div`
@@ -221,6 +291,15 @@ const CartSummary = styled.div`
 
   h2 {
     margin: 0 0 1rem 0;
+  }
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+    
+    h2 {
+      text-align: center;
+      font-size: 1.25rem;
+    }
   }
 `;
 
@@ -234,6 +313,17 @@ const SummaryItem = styled.div`
   &:last-of-type {
     border-bottom: none;
     font-weight: bold;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 0.9rem;
+    
+    &:last-of-type {
+      font-size: 1.1rem;
+      padding-top: 0.5rem;
+      margin-top: 0.5rem;
+      border-top: 2px solid #e5e7eb;
+    }
   }
 `;
 
@@ -255,6 +345,11 @@ const CheckoutButton = styled.button`
   &:disabled {
     background: #94a3b8;
     cursor: not-allowed;
+  }
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+    font-size: 1rem;
   }
 `;
 
@@ -284,11 +379,25 @@ const ClearButton = styled.button`
   &:hover {
     background: #dc2626;
   }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 0.75rem;
+  }
 `;
 
 const EmptyCartContainer = styled.div`
   text-align: center;
   padding: 4rem 1rem;
+
+  @media (max-width: 768px) {
+    padding: 2rem 1rem;
+    
+    h2 {
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+    }
+  }
 `;
 
 const ShopButton = styled.button`

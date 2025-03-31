@@ -178,86 +178,30 @@ const FeaturedProductsSection = styled.div`
 const ProductsWrapper = styled.div`
   max-width: 1200px;
   margin: 0 auto;
-  /* padding: 0 1rem; */
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 30px;
+  gap: 20px;
+  padding: 0 10px;
 
-  /* h2 {
-    display: block;
-    font-size: 2rem;
-    font-weight: bold;
-    text-align: left;
-    margin-bottom: 3rem;
-  } */
-
-  /* display: grid;
-  grid-template-columns: 1fr;
-  gap: 2rem; */
-
-  /* @media (min-width: 640px) {
-    grid-template-columns: repeat(2, 1fr);
+  @media (max-width: 768px) {
+    gap: 15px;
+    padding: 0 15px;
   }
-
-  @media (min-width: 1024px) {
-    grid-template-columns: repeat(4, 1fr);
-  } */
 `;
 
 const ProductCard = styled.div`
-  /* background-color: white;
-  border-radius: 0.375rem;
-  overflow: hidden;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s;
-
-  &:hover {
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-  }
-
-  img {
-    width: 100%;
-    height: 12rem;
-    object-fit: cover;
-  }
-
-  div {
-    padding: 1rem;
-
-    h3 {
-      font-size: 1rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-    }
-
-    p {
-      color: #16a34a;
-      font-weight: 500;
-    }
-
-    button {
-      margin-top: 1rem;
-      width: 100%;
-      background-color: #16a34a;
-      color: white;
-      padding: 0.5rem;
-      border-radius: 0.375rem;
-      border: none;
-      cursor: pointer;
-      transition: background-color 0.3s;
-
-      &:hover {
-        background-color: #15803d;
-      }
-    }
-  } */
-    width: 250px;
+  width: 250px;
   background-color: white;
   padding: 10px;
   border-radius: 0.375rem;
   overflow: hidden;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  @media (max-width: 768px) {
+    width: calc(50% - 15px);
+    padding: 8px;
+  }
 
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -265,27 +209,43 @@ const ProductCard = styled.div`
   }
 
   img {
-    width: 230px;
+    width: 100%;
     height: 13rem;
     border-radius: 0.375rem;
     object-fit: cover;
+
+    @media (max-width: 768px) {
+      height: 10rem;
+    }
   }
 
   div {
     padding: 1rem;
 
-    h2{
-      font-size: 15px;
-      margin-bottom: 5px;
+    @media (max-width: 768px) {
+      padding: 0.75rem;
     }
 
-    h3{
+    h2 {
+      font-size: 15px;
+      margin-bottom: 5px;
+
+      @media (max-width: 768px) {
+        font-size: 13px;
+      }
+    }
+
+    h3 {
       color: #16a34a;
     }
 
     p {
       color: black;
       font-size: 12px;
+
+      @media (max-width: 768px) {
+        font-size: 11px;
+      }
     }
 
     button {
@@ -298,6 +258,12 @@ const ProductCard = styled.div`
       border: none;
       cursor: pointer;
       transition: background-color 0.3s;
+
+      @media (max-width: 768px) {
+        margin-top: 0.75rem;
+        padding: 0.4rem;
+        font-size: 12px;
+      }
 
       &:hover {
         background-color: #15803d;

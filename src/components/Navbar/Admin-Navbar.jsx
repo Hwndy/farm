@@ -508,6 +508,11 @@ export default function AdminNavbar () {
       navigate("/");
     };
 
+    const handleMobileMenuClick = (path) => {
+      setIsOpen(false);
+      navigate(path);
+    };
+
   return (
     <NavbarContainer onClick={() => setSearchOpen(false)}>
       <NavbarWrapper>
@@ -650,10 +655,13 @@ export default function AdminNavbar () {
       {/* Mobile Menu */}
       {isOpen && (
         <MobileMenu>
-          <MobileMenuLink to="/">Home</MobileMenuLink>
-          <MobileMenuLink to="/buyer-store">Store</MobileMenuLink>
-          <MobileMenuLink to="/help/faq">FAQ</MobileMenuLink>
-          <MobileMenuLink onClick={handleSignOut}>Sign Out</MobileMenuLink>
+          <MobileMenuLink to="/" onClick={() => setIsOpen(false)}>Home</MobileMenuLink>
+          <MobileMenuLink to="/buyer-store" onClick={() => setIsOpen(false)}>Store</MobileMenuLink>
+          <MobileMenuLink to="/help/faq" onClick={() => setIsOpen(false)}>FAQ</MobileMenuLink>
+          <MobileMenuLink onClick={() => {
+            handleSignOut();
+            setIsOpen(false);
+          }}>Sign Out</MobileMenuLink>
         </MobileMenu>
       )}
     </NavbarContainer>

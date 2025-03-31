@@ -498,6 +498,10 @@ export default function AdminNavbar () {
       setIsDropdownOpen(false);
     };
 
+    const handleMobileMenuClick = (path) => {
+      setIsOpen(false); // Close the menu
+      navigate(path); // Navigate to the selected path
+    };
 
     const debouncedSearch = useCallback(
       debounce(async (term) => {
@@ -692,9 +696,10 @@ export default function AdminNavbar () {
       {/* Mobile Menu */}
       {isOpen && (
         <MobileMenu>
-          <MobileMenuLink to="/buyer-store">Store</MobileMenuLink>
-          <MobileMenuLink to="/help/faq">Help</MobileMenuLink>
-          <MobileMenuLink to="/signup">Create Account</MobileMenuLink>
+          <MobileMenuLink to="/buyer-store" onClick={() => setIsOpen(false)}>Store</MobileMenuLink>
+          <MobileMenuLink to="/about" onClick={() => setIsOpen(false)}>About Us</MobileMenuLink>
+          <MobileMenuLink to="/help/faq" onClick={() => setIsOpen(false)}>Help</MobileMenuLink>
+          <MobileMenuLink to="/signup" onClick={() => setIsOpen(false)}>Create Account</MobileMenuLink>
         </MobileMenu>
       )}
     </NavbarContainer>
