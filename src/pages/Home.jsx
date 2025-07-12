@@ -306,7 +306,6 @@ export default function Home() {
           },
         },
       );
-      console.log(response.data);
       return setProducts(response.data.products);
 
     } catch (error) {
@@ -452,75 +451,4 @@ export default function Home() {
     </div>
   );
 }
-// import React from 'react';
-// import { useState, useEffect } from "react";
-// import styled from "styled-components";
-// import axios from "axios";
-
-
-// const App = () => {
-//   const [products, setProducts] = useState([]);
-//   const fetchProducts = async (queryParams) => {
-//     try {
-//       const response = await axios.get(`https://farmera-eyu3.onrender.com/api/v1/product/get/allProducts`, { params: queryParams },
-//         {
-//           headers: {
-//             "Authorization": `Bearer ${localStorage.getItem("token")}`
-//           },
-//         },
-//       );
-      
-      
-//       console.log(response.data);
-//       return setProducts(response.data.products);
-//     } catch (error) {
-//       console.error("Error fetching products:", error.response?.data || error.message);
-//       throw error;
-//     }
-//   };
-
-//   useEffect(() => {
-//     fetchProducts();
-//   }, []);
-
-//   return (
-//     <Div>
-//       <h1>Home page</h1>
-   
-//                     <FeaturedProductsSection>
-//                         <ProductWrapper>
-//                             {products.map((product)=>(
-//                             <ProductCard key={product._id}>
-//                                 <img src={product.images} alt={product.imageIds} />
-//                                 <div>
-//                                     <h3>{product.name}</h3>
-//                                     <h2>{product.description}</h2>
-//                                     <h4>By {product.store} @ {product.location}</h4>
-//                                     <p>₦{product.price}</p>
-//                                     <button>
-//                                         Add to Cart
-//                                     </button>
-//                                 </div>
-//                             </ProductCard>
-//                             ))}
-//                         </ProductWrapper>
-//                     </FeaturedProductsSection>
-//     </Div>
-//   );
-// };
-
-// export default App;
-
-// const Div = styled.div`
-
-// `
-// const FeaturedProductsSection = styled.div`
-  
-// `
-// const ProductWrapper = styled.div`
-  
-// `
-// const ProductCard = styled.div`
-  
-// `
 

@@ -204,7 +204,6 @@ export default function AdminProductForm({ onClose, editingProduct, onSavedProdu
       const response = await axios.put(`https://farmera-eyu3.onrender.com/api/v1/product/update/${editingProduct._id}`,
         productFormData,
       );
-      console.log(response.data);
     } catch (err) {
       if (err.response?.data?.error) {
         setError(err.response?.data?.error)
@@ -290,7 +289,6 @@ export default function AdminProductForm({ onClose, editingProduct, onSavedProdu
       }
       const newFileList = imageUpload.filter((f) => f.uid !== file.uid)
       setImageUpload(newFileList)
-      console.log(newFileList)
     },
     fileList: imageUpload,
   };

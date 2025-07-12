@@ -252,14 +252,12 @@ export default function AdminProductList({handleProductNo}) {
   const handleEdit = (product) => {
     setEditingProduct(product);
     setShowForm(true);
-    console.log(product);
   };
 
   const handleDelete = async (productId) => {
     setError(null)
     try {
       const response = await axios.delete(`https://farmera-eyu3.onrender.com/api/v1/product/delete/${productId}`);
-      console.log(`Deleted product with ID: ${productId}`);
       fetchProducts();
 
       if (response.status === 200) {

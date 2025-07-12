@@ -34,31 +34,24 @@ export const CartProvider = ({ children }) => {
       const endpoint = isAuthenticated
         ? `${BASE_URL}/user`
         : `${BASE_URL}/guestUser`
-
-      // console.log('Attempting to fetch from endpoint:', endpoint);
-      // console.log('Current auth status:', { isAuthenticated, cartId });
       
       if (isAuthenticated) {
         if (!token) {
           console.log('Token not available yet, skipping fetch');
           return;
         }
-        // console.log('Fetching authenticated cart with token:', token);
         headers.Authorization = `Bearer ${token}`;
       } else {
-        // console.log('Fetching guest cart with cartId:', cartId);
         headers['x-cart-id'] = cartId;
       }
 
-      // console.log('Request headers:', headers);
  
       const response = await axios.get(endpoint, {
         headers,
         withCredentials: true,
         timeout: 5000,
       });
-     
-      // console.log('Received cart data:', response.data);
+
       setCart(response.data);
     } catch (error) {
       console.error('Detailed error information:', {
@@ -87,13 +80,6 @@ export const CartProvider = ({ children }) => {
   const addToCart = async (productId, quantity = 1) => {
     setLoading(true);
     
-    // if (!isAuthenticated && !cartId) {
-    //   console.log('Skipping add to cart: not authenticated and no cartId');
-    //   setError('Cart session not initialized');
-    //   setLoading(false);
-    //   return false;
-    // }
-    
     try {
       const token = localStorage.getItem("token");
       const headers = {
@@ -103,9 +89,6 @@ export const CartProvider = ({ children }) => {
       const endpoint = isAuthenticated
         ? `${BASE_URL}/add`
         : `${BASE_URL}/guestAdd`;
-      
-      console.log('Attempting to add to cart using endpoint:', endpoint);
-      console.log('Current auth status:', { isAuthenticated, cartId });
       
       if (isAuthenticated) {
         if (!token) {

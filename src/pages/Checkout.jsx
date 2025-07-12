@@ -65,9 +65,7 @@ const Checkout = () => {
             );
 
             const cartData = response.data;
-            console.log(cartData)
             setPrice(cartData.totalBill);
-            console.log('Total Bill:', cartData.totalBill);
         } catch (error) {
             console.error('Error fetching cart details:', error);
         }

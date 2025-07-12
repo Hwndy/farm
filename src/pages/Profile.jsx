@@ -30,7 +30,6 @@ const Profile = () => {
                 );
 
                 let profileData = response.data
-                console.log(profileData);
                 
                 setProfile(profileData)
                 setForm(profileData)

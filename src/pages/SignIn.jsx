@@ -69,11 +69,6 @@ const SignIn = () => {
                 formData
             );
 
-            // console.log("Server Response:", response.data);
-            // console.log("token received:", response.data.token);
-
-    
-            console.log("token received:", response.data.token);
             const {token, user} = response.data;
     
             if (!token) {
@@ -84,14 +79,9 @@ const SignIn = () => {
             localStorage.setItem("token", token);
             localStorage.setItem("user", JSON.stringify(user));
 
-            // console.log("token saved in localStorage:", localStorage.getItem("token"));
-            // console.log("Attempting to navigate to dashboard...");
-
             axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
             await mergeCartsAfterLogin(token);
-
-            console.log("token saved in localStorage:", localStorage.getItem("token"));
     
             // Dispatch user authentication first
             dispatch({

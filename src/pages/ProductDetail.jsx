@@ -174,7 +174,6 @@ const ProductDetail = () => {
   // Fetch the product details
   const fetchProductDetails = async () => {
     try {
-      console.log("Fetching product details for id:", id); // Debugging line
       const response = await axios.get(`https://farmera-eyu3.onrender.com/api/v1/product/get/${id}`);
       // axios.get(`https://farmera-eyu3.onrender.com/api/v1/product/get/${id}`, {
       //   headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
@@ -192,7 +191,6 @@ const ProductDetail = () => {
   // Fetch related products based on category
   const fetchRelatedProducts = async (category) => {
     try {
-      console.log("Fetching related products for category:", category); // Debugging line
       const response = await axios.get(`https://farmera-eyu3.onrender.com/api/v1/product/get/relatedProducts`, {
         params: { category },
       });

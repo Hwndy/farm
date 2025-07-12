@@ -6,7 +6,7 @@ import { FaAngleRight } from "react-icons/fa";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Spinner from "../components/Spinner";
-import { ChevronDown } from "react-feather";
+import { ChevronDown } from "react-icons";
 
 const Store = () => {
   const [products, setProducts] = useState([]);
