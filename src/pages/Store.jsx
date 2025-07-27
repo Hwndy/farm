@@ -39,7 +39,7 @@ const Store = () => {
 
   const fetchProducts = async (queryParams) => {
     try {
-      const response = await axios.get(`https://farmera-eyu3.onrender.com/api/v1/product/get/allProducts`, { params: queryParams });
+      const response = await axios.get(`https://farmera-abl8.onrender.com/api/v1/product/get/allProducts`, { params: queryParams });
       return response.data;
     } catch (error) {
       console.error("Error fetching products:", error.response?.data || error.message);
@@ -49,7 +49,7 @@ const Store = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    axios.get("https://farmera-eyu3.onrender.com/api/v1/category/get/allCategories" , {
+    axios.get("https://farmera-abl8.onrender.com/api/v1/category/get/allCategories" , {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       }
@@ -72,7 +72,7 @@ const Store = () => {
   //   setLoading(true);
   //   try {
   //     const response = await axios.get(
-  //       `https://farmera-eyu3.onrender.com/api/v1/product/get/${id}`
+  //       `https://farmera-abl8.onrender.com/api/v1/product/get/${id}`
   //     );
   //     setSelectedProduct(response.data); 
   //     setShowProductModal(true); 

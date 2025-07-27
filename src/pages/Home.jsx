@@ -299,7 +299,7 @@ export default function Home() {
 
   const fetchProducts = async (queryParams) => {
     try {
-      const response = await axios.get(`https://farmera-eyu3.onrender.com/api/v1/product/get/allProducts`, { params: queryParams },
+      const response = await axios.get(`https://farmera-abl8.onrender.com/api/v1/product/get/allProducts`, { params: queryParams },
         {
           headers: {
             "Authorization": `Bearer ${localStorage.getItem("token")}`

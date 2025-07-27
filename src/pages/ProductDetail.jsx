@@ -18,7 +18,7 @@
 
 //   const fetchProductDetails = async () => {
 //     try {
-//       const response = await axios.get(`https://farmera-eyu3.onrender.com/api/v1/product/get/${id}`);
+//       const response = await axios.get(`https://farmera-abl8.onrender.com/api/v1/product/get/${id}`);
 //       setProduct(response.data.products);
 //     } catch (err) {
 //       setError("Error fetching product details.");
@@ -26,7 +26,7 @@
 //   };
 //   const fetchRelatedProducts = async (category) => {
 //     try {
-//       const response = await axios.get(`https://farmera-eyu3.onrender.com/api/v1/product/get/relatedProducts`, {
+//       const response = await axios.get(`https://farmera-abl8.onrender.com/api/v1/product/get/relatedProducts`, {
 //         params: { category },
 //       });
 //       setRelatedProducts(response.data.products);
@@ -174,8 +174,8 @@ const ProductDetail = () => {
   // Fetch the product details
   const fetchProductDetails = async () => {
     try {
-      const response = await axios.get(`https://farmera-eyu3.onrender.com/api/v1/product/get/${id}`);
-      // axios.get(`https://farmera-eyu3.onrender.com/api/v1/product/get/${id}`, {
+      const response = await axios.get(`https://farmera-abl8.onrender.com/api/v1/product/get/${id}`);
+      // axios.get(`https://farmera-abl8.onrender.com/api/v1/product/get/${id}`, {
       //   headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
       // });
       
@@ -191,7 +191,7 @@ const ProductDetail = () => {
   // Fetch related products based on category
   const fetchRelatedProducts = async (category) => {
     try {
-      const response = await axios.get(`https://farmera-eyu3.onrender.com/api/v1/product/get/relatedProducts`, {
+      const response = await axios.get(`https://farmera-abl8.onrender.com/api/v1/product/get/relatedProducts`, {
         params: { category },
       });
       setRelatedProducts(response.data.products);

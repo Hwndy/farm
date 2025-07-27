@@ -21,7 +21,7 @@ const Profile = () => {
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const response = await axios.get("https://farmera-eyu3.onrender.com/api/v1/user/profile/get/SignedinUserProfile",
+                const response = await axios.get("https://farmera-abl8.onrender.com/api/v1/user/profile/get/SignedinUserProfile",
                     {
                         headers: {
                           "Authorization": `Bearer ${localStorage.getItem("token")}`
@@ -64,7 +64,7 @@ const Profile = () => {
         e.preventDefault();
         setMessage("")
         try {
-            const response = await axios.post("https://farmera-eyu3.onrender.com/api/v1/user/profile/update",
+            const response = await axios.post("https://farmera-abl8.onrender.com/api/v1/user/profile/update",
                 form,
                 {
                     headers: {

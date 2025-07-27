@@ -70,7 +70,7 @@ const CreateAccount = () => {
         }
         
         try {
-            let signupBuyer = await axios.post("https://farmera-eyu3.onrender.com/api/v1/auth/signup/buyer",
+            let signupBuyer = await axios.post("https://farmera-abl8.onrender.com/api/v1/auth/signup/buyer",
                 newBuyerData
             );
 
@@ -120,7 +120,7 @@ const CreateAccount = () => {
         }
 
         try {
-            let signupFarmer = await axios.post("https://farmera-eyu3.onrender.com/api/v1/auth/signup/farmer", 
+            let signupFarmer = await axios.post("https://farmera-abl8.onrender.com/api/v1/auth/signup/farmer", 
                 newFarmerData
             );
 

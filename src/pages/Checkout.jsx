@@ -34,7 +34,7 @@ const Checkout = () => {
       const fetchUserProfile = async () => {
           try {
               const response = await axios.get(
-                 'https://farmera-eyu3.onrender.com/api/v1/user/profile/get/SignedinUserProfile',
+                 'https://farmera-abl8.onrender.com/api/v1/user/profile/get/SignedinUserProfile',
                   {
                       headers: {
                           Authorization: `Bearer ${token}`,
@@ -56,7 +56,7 @@ const Checkout = () => {
     const fetchCartDetails = async () => {
         try {
             const response = await axios.get(
-                'https://farmera-eyu3.onrender.com/api/v1/cart/user',
+                'https://farmera-abl8.onrender.com/api/v1/cart/user',
                 {
                   headers: {
                     Authorization: `Bearer ${token}`,
@@ -194,7 +194,7 @@ const paystackConfig = {
       };
 
       const response = await axios.post(
-        'https://farmera-eyu3.onrender.com/api/v1/order/add',
+        'https://farmera-abl8.onrender.com/api/v1/order/add',
         orderData,
         {
           headers: { Authorization: `Bearer ${token}` }

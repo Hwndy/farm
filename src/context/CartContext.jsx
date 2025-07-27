@@ -11,7 +11,7 @@ export const CartProvider = ({ children }) => {
 
   const isAuthenticated = !!localStorage.getItem("token");
 
-  const BASE_URL = 'https://farmera-eyu3.onrender.com/api/v1/cart';
+  const BASE_URL = 'https://farmera-abl8.onrender.com/api/v1/cart';
 
   useEffect(() => {
     if (cartId) {

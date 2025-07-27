@@ -144,7 +144,7 @@ export const ForgotPassword = () => {
 
     try {
       await axios.post(
-        "https://farmera-eyu3.onrender.com/api/v1/auth/forgotPassword",
+        "https://farmera-abl8.onrender.com/api/v1/auth/forgotPassword",
         { email }
       );
 
@@ -266,7 +266,7 @@ export const ResetPassword = () => {
 
     try {
       const response = await axios.post(
-        "https://farmera-eyu3.onrender.com/api/v1/auth/resetPassword", 
+        "https://farmera-abl8.onrender.com/api/v1/auth/resetPassword", 
         {
           email,
           otp,

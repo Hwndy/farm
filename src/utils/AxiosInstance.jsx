@@ -1,5 +1,5 @@
 const axiosInstance = axios.create({
-    baseURL: "https://farmera-eyu3.onrender.com/api/v1",
+    baseURL: "https://farmera-abl8.onrender.com/api/v1",
     headers: {
       "Content-Type": "application/json",
     },

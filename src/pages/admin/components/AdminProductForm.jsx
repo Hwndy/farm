@@ -145,7 +145,7 @@ export default function AdminProductForm({ onClose, editingProduct, onSavedProdu
   const fetchDetails = async () => {
     if (editingProduct) {
       try {
-        const response = await axios.get(`https://farmera-eyu3.onrender.com/api/v1/product/get/${editingProduct._id}`);
+        const response = await axios.get(`https://farmera-abl8.onrender.com/api/v1/product/get/${editingProduct._id}`);
         const details = response.data
         setFormData({
           name: details.name || "",
@@ -181,7 +181,7 @@ export default function AdminProductForm({ onClose, editingProduct, onSavedProdu
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get("https://farmera-eyu3.onrender.com/api/v1/category/get/allCategories")
+      const response = await axios.get("https://farmera-abl8.onrender.com/api/v1/category/get/allCategories")
       setCategories(response.data)
 
     } catch (err) {
@@ -201,7 +201,7 @@ export default function AdminProductForm({ onClose, editingProduct, onSavedProdu
  
   const updateProduct = async (productFormData) => {
     try {
-      const response = await axios.put(`https://farmera-eyu3.onrender.com/api/v1/product/update/${editingProduct._id}`,
+      const response = await axios.put(`https://farmera-abl8.onrender.com/api/v1/product/update/${editingProduct._id}`,
         productFormData,
       );
     } catch (err) {
@@ -215,7 +215,7 @@ export default function AdminProductForm({ onClose, editingProduct, onSavedProdu
 
   const createProduct = async (productFormData) => {
     try {
-      await axios.post("https://farmera-eyu3.onrender.com/api/v1/product/create",
+      await axios.post("https://farmera-abl8.onrender.com/api/v1/product/create",
         productFormData,
         {
           headers: {

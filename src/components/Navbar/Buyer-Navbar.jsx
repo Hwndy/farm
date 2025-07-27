@@ -451,7 +451,7 @@ export default function AdminNavbar () {
           return;
         }
         try {
-          const response = await axios.get("https://farmera-eyu3.onrender.com/api/v1/product/get/allProducts", {
+          const response = await axios.get("https://farmera-abl8.onrender.com/api/v1/product/get/allProducts", {
             params: { search: term },
           });
           setSuggestions(response.data.products || []);
@@ -479,7 +479,7 @@ export default function AdminNavbar () {
     const handleSearch = async () => {
       if (searchTerm.trim() === "") return;
       try {
-        const response = await axios.get("https://farmera-eyu3.onrender.com/api/v1/product/get/allProducts", {
+        const response = await axios.get("https://farmera-abl8.onrender.com/api/v1/product/get/allProducts", {
           params: { search: searchTerm },
         });
         navigate("./SearchResults", { state: { results: response.data.products } });

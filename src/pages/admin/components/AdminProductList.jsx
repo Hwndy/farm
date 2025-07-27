@@ -227,7 +227,7 @@ export default function AdminProductList({handleProductNo}) {
   const fetchProducts = async () => {
     setError(null)
     try {
-      const response = await axios.get("https://farmera-eyu3.onrender.com/api/v1/product/myProducts",
+      const response = await axios.get("https://farmera-abl8.onrender.com/api/v1/product/myProducts",
         {
           headers: {
             "Authorization": `Bearer ${localStorage.getItem("token")}`
@@ -257,7 +257,7 @@ export default function AdminProductList({handleProductNo}) {
   const handleDelete = async (productId) => {
     setError(null)
     try {
-      const response = await axios.delete(`https://farmera-eyu3.onrender.com/api/v1/product/delete/${productId}`);
+      const response = await axios.delete(`https://farmera-abl8.onrender.com/api/v1/product/delete/${productId}`);
       fetchProducts();
 
       if (response.status === 200) {
